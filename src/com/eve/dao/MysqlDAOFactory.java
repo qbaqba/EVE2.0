@@ -11,4 +11,8 @@ public class MysqlDAOFactory extends DAOFactory {
     public ManagerDAO getManagerDAO() {
         return null;
     }
+
+    public EventDAO getEventDAO(){
+        return null;
+    }
 }
