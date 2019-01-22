@@ -6,5 +6,8 @@ public abstract class DAOFactory {
     public abstract ManagerDAO getManagerDAO();
     public abstract EventDAO getEventDAO();
 
+    public static DAOFactory getMysqlDAOFactory(){
+        return new MysqlDAOFactory();
+    }
 
 }

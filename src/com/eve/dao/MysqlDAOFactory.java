@@ -4,12 +4,12 @@ public class MysqlDAOFactory extends DAOFactory {
 
     @Override
     public UserDAO getUserDAO() {
-        return null;
+        return new MysqlUserDAO();
     }
 
     @Override
     public ManagerDAO getManagerDAO() {
-        return null;
+        return new MysqlManagerDAO();
     }
 
     public EventDAO getEventDAO(){
