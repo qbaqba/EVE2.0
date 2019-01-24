@@ -1,4 +1,4 @@
-package com.eve;
+package com.eve.controller;
 
 import com.eve.model.User;
 import com.eve.util.ConnectionProvider;

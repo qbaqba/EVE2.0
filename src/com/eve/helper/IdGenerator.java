@@ -1,17 +1,34 @@
 package com.eve.helper;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class IdGenerator {
 
+    private List listOfAllId;
     private int randomId;
+    private int correctId;
+    private boolean statusOfCorrectId = false;
 
     private String firstDigit;
     private String secondDigit;
     private String thirdDigit;
     private String fourthDigit;
 
-    public int getRandomId(){
+    public IdGenerator(List listOfAllId){
+        this.listOfAllId = listOfAllId;
+    }
+
+    public int selectCorrectId(){
+        while(statusOfCorrectId == false){
+            createRandomId();
+            statusOfCorrectId = checkRandomId(randomId, listOfAllId);
+        }
+        correctId = randomId;
+        return correctId;
+    }
+
+    public void createRandomId(){
         firstDigit = String.valueOf(ThreadLocalRandom.current().nextInt(0, 10));
         secondDigit = String.valueOf(ThreadLocalRandom.current().nextInt(0, 10));
         thirdDigit = String.valueOf(ThreadLocalRandom.current().nextInt(0, 10));
@@ -19,7 +36,16 @@ public class IdGenerator {
 
         String idToString = firstDigit + secondDigit + thirdDigit + fourthDigit;
         randomId = Integer.parseInt(idToString);
-
-        return randomId;
     }
+
+    public boolean checkRandomId(int randomId, List listOfAllId){
+        if(listOfAllId.contains(randomId)){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+
 }
