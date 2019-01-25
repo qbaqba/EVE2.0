@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Kuba Gorczyca
-  Date: 13.01.2019
-  Time: 23:21
+  Date: 24.01.2019
+  Time: 23:22
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -25,13 +25,13 @@
 
     <div class="row justify-content-center my-5">
         <div class="col-12 col-md-4">
-            <h1 class="display-1">Rejestracja</h1>
+            <h1 class="display-1">Logowanie</h1>
         </div>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-12 col-md-4 border mt-3 ">
-            <form method="post" action="register">
+            <form method="post" action="login">
                 <div class="form-group row pt-5">
                     <label for="inputLogin1" class="col-sm-2 col-form-label">Login</label>
                     <div class="col-sm-10">
@@ -44,28 +44,9 @@
                         <input name="inputPassword" type="password" class="form-control" id="inputPassword1" placeholder="Hasło  ">
                     </div>
                 </div>
-                <fieldset class="form-group">
-                    <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">Typ konta</legend>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="accountType" id="gridRadios1" value="user" checked>
-                                <label class="form-check-label" for="gridRadios1">
-                                    Użytkownik
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="accountType" id="gridRadios2" value="manager">
-                                <label class="form-check-label" for="gridRadios2">
-                                    Event Menager
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
                 <div class="form-group row ">
                     <div class="mx-auto  ">
-                        <button type="submit" class="btn btn-success">Zarejestruj się</button>
+                        <button type="submit" class="btn btn-success">Zaloguj się</button>
                     </div>
                 </div>
 

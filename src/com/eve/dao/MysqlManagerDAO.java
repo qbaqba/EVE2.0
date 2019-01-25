@@ -29,6 +29,39 @@ public class MysqlManagerDAO implements ManagerDAO {
         }
     }
 
+    public ArrayList<String> getAllLogin(){
+        ArrayList<String> listOfAllLogin = new ArrayList<String>();
+
+        try {
+            Connection connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT login FROM manager;");
+            while (resultSet.next()){
+                listOfAllLogin.add(resultSet.getString("login"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfAllLogin;
+    }
+
+    @Override
+    public List getAllPassword() {
+        ArrayList<String> listOfAllPassword = new ArrayList<String>();
+
+        try {
+            Connection connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT password FROM manager;");
+            while (resultSet.next()){
+                listOfAllPassword.add(resultSet.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfAllPassword;
+    }
+
     @Override
     public ArrayList<Integer> getAllId() {
         ArrayList<Integer> listOfAllId = new ArrayList<Integer>();

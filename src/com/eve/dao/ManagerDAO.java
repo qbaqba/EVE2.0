@@ -9,4 +9,8 @@ public interface ManagerDAO {
     public void create(Manager manager);
 
     public List getAllId();
+
+    public List getAllLogin();
+
+    public List getAllPassword();
 }
