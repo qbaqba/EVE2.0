@@ -10,6 +10,7 @@ import java.util.List;
 public class MysqlManagerDAO implements ManagerDAO {
 
     private static final String CREATE_MANAGER_SQL_QUERRY = "INSERT INTO MANAGER VALUES(?, ?, ?);";
+    private static final String GET_MANAGER_SQL_QUERRY = "SELECT id from manager where login=? and password=?;";
 
     @Override
     public void create(Manager manager) {
@@ -27,6 +28,26 @@ public class MysqlManagerDAO implements ManagerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Manager getManager(String login, String password) {
+
+        Manager manager = new Manager(login, password);
+        int id = 0;
+        try (Connection connection = ConnectionProvider.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_MANAGER_SQL_QUERRY);
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                id = resultSet.getInt("id");
+            }
+            manager.setId(id);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return manager;
     }
 
     public ArrayList<String> getAllLogin(){

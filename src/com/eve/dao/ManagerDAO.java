@@ -13,4 +13,6 @@ public interface ManagerDAO {
     public List getAllLogin();
 
     public List getAllPassword();
+
+    public Manager getManager(String login, String password);
 }

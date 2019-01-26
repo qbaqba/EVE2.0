@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/login")
@@ -18,8 +19,9 @@ public class LoginController extends HttpServlet {
         ManagerService managerService = new ManagerService();
         Manager manager = managerService.getManager(login, password);
         if(manager != null){
-            request.getSession(true).setAttribute("login", manager.getLogin());
-            response.sendRedirect(request.getContextPath()+"/");
+            HttpSession session = request.getSession(true);
+            session.setAttribute("manager", manager);
+            response.sendRedirect("/mainPanelManager.jsp");
         }
         else{
             response.sendRedirect(request.getContextPath() + "/");

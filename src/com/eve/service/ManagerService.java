@@ -26,7 +26,7 @@ public class ManagerService {
         ArrayList<String> listOfAllLogin = (ArrayList<String>) managerDAO.getAllLogin();
         ArrayList<String> listOfAllPassword = (ArrayList<String>) managerDAO.getAllPassword();
         if(listOfAllLogin.contains(login) && listOfAllPassword.contains(password)){
-            Manager manager = new Manager(login, password);
+            Manager manager = managerDAO.getManager(login, password);
             return manager;
         }
         else{

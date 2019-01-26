@@ -13,6 +13,6 @@ public class MysqlDAOFactory extends DAOFactory {
     }
 
     public EventDAO getEventDAO(){
-        return null;
+        return new MysqlEventDAO();
     }
 }

@@ -2,7 +2,9 @@ package com.eve.dao;
 
 import com.eve.model.Event;
 
-public interface EventDAO {
+import java.util.List;
 
-  //  public void create(Event event);
+public interface EventDAO {
+    public void create(Event event);
+    public List getAllId();
 }
