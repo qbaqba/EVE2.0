@@ -6,9 +6,31 @@ import com.eve.helper.IdGenerator;
 import com.eve.model.Manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ManagerService {
+
+    public Manager checkManagerExist(String inputLogin, String inputPassword){
+        Manager manager;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        ManagerDAO managerDAO = factory.getManagerDAO();
+        HashMap<String, String> mapOfAllAccounts = managerDAO.getAllAccount();
+
+        if(mapOfAllAccounts.containsKey(inputLogin)) {
+            String password = mapOfAllAccounts.get(inputLogin);
+            if (password.equals(inputPassword)) {
+                manager = managerDAO.getManager(inputLogin, inputPassword);
+                return manager;
+            }
+            else {
+                return null;
+            }
+        }
+        else{
+            return null;
+        }
+    }
 
     public void addManager(String login, String password){
         Manager newManager = new Manager(login, password);
@@ -19,21 +41,6 @@ public class ManagerService {
         managerDAO.create(newManager);
     }
 
-    public Manager getManager(String login, String password){
-        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
-        ManagerDAO managerDAO = factory.getManagerDAO();
-
-        ArrayList<String> listOfAllLogin = (ArrayList<String>) managerDAO.getAllLogin();
-        ArrayList<String> listOfAllPassword = (ArrayList<String>) managerDAO.getAllPassword();
-        if(listOfAllLogin.contains(login) && listOfAllPassword.contains(password)){
-            Manager manager = managerDAO.getManager(login, password);
-            return manager;
-        }
-        else{
-            return null;
-        }
-
-    }
 
 
 }

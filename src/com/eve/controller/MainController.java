@@ -1,6 +1,5 @@
 package com.eve.controller;
 
-import com.eve.model.User;
 import com.eve.util.ConnectionProvider;
 
 import javax.servlet.ServletException;
@@ -14,21 +13,13 @@ import java.sql.*;
 @WebServlet("/MainController")
 public class MainController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = new User();
-        user.setLogin("Kuba");
-        user.setId(2);
-        user.setPassword("blalba");
+
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Servlet test");
-        User user = new User(5,"kuba","balaa");
 
-
-        System.out.println("System");
-        System.out.println(user.toString());
-        System.out.println(user.hashCode());
 
         try (Connection conn = ConnectionProvider.getConnection()) {
             Statement statement = conn.createStatement();

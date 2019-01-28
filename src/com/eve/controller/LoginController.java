@@ -17,15 +17,16 @@ public class LoginController extends HttpServlet {
         String login = request.getParameter("inputLogin");
         String password = request.getParameter("inputPassword");
         ManagerService managerService = new ManagerService();
-        Manager manager = managerService.getManager(login, password);
+        Manager manager = managerService.checkManagerExist(login, password);
         if(manager != null){
             HttpSession session = request.getSession(true);
             session.setAttribute("manager", manager);
             response.sendRedirect("/mainPanelManager.jsp");
         }
         else{
-            response.sendRedirect(request.getContextPath() + "/");
+            response.sendRedirect(request.getContextPath()+"/");
         }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

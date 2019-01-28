@@ -18,8 +18,14 @@ public class Register extends HttpServlet {
         String accountType = request.getParameter("accountType");
         String login = request.getParameter("inputLogin");
         String password = request.getParameter("inputPassword");
-        ManagerService managerService = new ManagerService();
-        managerService.addManager(login, password);
+        if(accountType.equals("manager")){
+            ManagerService managerService = new ManagerService();
+            managerService.addManager(login, password);
+        }
+        else if(accountType.equals("user")){
+            UserService userService = new UserService();
+            userService.addUser(login, password);
+        }
         response.sendRedirect(request.getContextPath()+"/");
 
     }
