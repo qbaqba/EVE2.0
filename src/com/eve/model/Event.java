@@ -1,20 +1,35 @@
 package com.eve.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 public class Event {
 
     private int id;
     private String name;
     private String location;
-
-    private int usersCounter;
+    private String description;
+    private Double ticketPrice;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private EventCategory category;
     private Manager manager;
+    private ArrayList<Participant> listOfAllParticipants;
 
-    public Event(String name, String location, Manager manager){
-        this.name = name;
-        this.location = location;
-        this.manager = manager;
-        usersCounter = 0;
-    }
+   public Event(){}
+
+   public Event(Event event){
+       this.id = event.id;
+       this.name = event.name;
+       this.location = event.location;
+       this.description = event.description;
+       this.ticketPrice = event.ticketPrice;
+       this.startDate = event.startDate;
+       this.endDate = event.endDate;
+       this.category = event.category;
+       this.manager = event.manager;
+       this.listOfAllParticipants = event.listOfAllParticipants;
+   }
 
     public int getId() {
         return id;
@@ -24,20 +39,12 @@ public class Event {
         this.id = id;
     }
 
-    public int getUsersCounter() {
-        return usersCounter;
+    public String getName() {
+        return name;
     }
 
-    public void setUsersCounter(int usersCounter) {
-        this.usersCounter = usersCounter;
-    }
-
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLocation() {
@@ -48,11 +55,59 @@ public class Event {
         this.location = location;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(Double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public EventCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(EventCategory category) {
+        this.category = category;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public ArrayList<Participant> getListOfAllParticipants() {
+        return listOfAllParticipants;
+    }
+
+    public void setListOfAllParticipants(ArrayList<Participant> listOfAllParticipants) {
+        this.listOfAllParticipants = listOfAllParticipants;
     }
 }

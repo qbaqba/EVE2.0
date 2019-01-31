@@ -37,7 +37,7 @@ public class MysqlManagerDAO implements ManagerDAO {
         }
     }
 
-    public Manager getManager(String login, String password) {
+    /*public Manager getManager(String login, String password) {
         Manager manager = new Manager(login, password);
         int id = 0;
         try (Connection connection = ConnectionProvider.getConnection()) {
@@ -54,9 +54,9 @@ public class MysqlManagerDAO implements ManagerDAO {
             e.printStackTrace();
         }
         return manager;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public Manager getManagerById(int id) {
         Manager manager = null;
         String idString = String.valueOf(id);
@@ -75,7 +75,7 @@ public class MysqlManagerDAO implements ManagerDAO {
             e.printStackTrace();
         }
         return manager;
-    }
+    }*/
 
 
     @Override
@@ -110,5 +110,15 @@ public class MysqlManagerDAO implements ManagerDAO {
             e.printStackTrace();
         }
         return listOfAllId;
+    }
+
+    @Override
+    public Manager getManager(String login, String password) {
+        return null;
+    }
+
+    @Override
+    public Manager getManagerById(int id) {
+        return null;
     }
 }

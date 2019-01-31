@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Kuba Gorczyca
-  Date: 13.01.2019
-  Time: 23:21
+  Date: 31.01.2019
+  Time: 22:24
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,35 +21,18 @@
 <header>
     <jsp:include page="WEB-INF/fragments/header.jspf"></jsp:include>
 </header>
-<div class="container-fluid">
+
+<div class="container-fluid ">
 
     <div class="row justify-content-center my-5">
         <div class="col-12 col-md-6 mx-auto justify-content-center">
-            <h1 class="display-1 text-center">Rejestracja</h1>
+             <h1 class="display-1 text-center">Rejestracja</h1>
         </div>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6">
-            <div class="jumbotron jumbotron-fluid border border-success rounded">
-                <div class="container text-center">
-                    <h1 class="display-4 mx-auto">Wybierz typ konta</h1>
-                    <p class="lead">Uczestnik - dołącz do wydarzeń!</p>
-                    <p class="lead">Organizator - twórz własne wydarzenia!</p>
-                    <div class="row justify-content-center mt-3">
-                        <form method="post" action="RegisterController">
-                            <button type="submit" class="btn btn-success btn-lg mr-2" name="string" value="Uczestnik">Uczestnik</button>
-                            <button type="submit" class="btn btn-success btn-lg ml-2" name="string" value="Organizator">Organizator</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
- <!--   <div class="row justify-content-center">
-        <div class="col-12 col-md-4 border mt-3 ">
+        <div class="col-12 col-md-6 border border-success rounded mt-3 jumbotron jumbotron-fluid ">
+            <h1 class="display-4 mx-auto text-center">Wprowadź dane</h1>
             <form method="post" action="register">
                 <div class="form-group row pt-5">
                     <label for="inputLogin1" class="col-sm-2 col-form-label">Login</label>
@@ -71,7 +54,7 @@
 
             </form>
         </div>
-    </div>-->
+    </div>
 </div>
 
 

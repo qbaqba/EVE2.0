@@ -33,12 +33,12 @@ public class ManagerService {
     }
 
     public void addManager(String login, String password){
-        Manager newManager = new Manager(login, password);
+       /* Manager newManager = new Manager(login, password);
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         ManagerDAO managerDAO = factory.getManagerDAO();
         IdGenerator idGenerator = new IdGenerator(managerDAO.getAllId());
         newManager.setId(idGenerator.selectCorrectId());
-        managerDAO.create(newManager);
+        managerDAO.create(newManager);*/
     }
 
 

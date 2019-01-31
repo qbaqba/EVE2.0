@@ -29,7 +29,7 @@
             <hr class="my-4">
             <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
             <a class="btn btn-success btn-lg" href="/creatingEventPanel.jsp" role="button">Dodaj wydarzenie</a>
-            <a class="btn btn-success btn-lg" href="index.jsp" role="button">Wydarzenia</a>
+            <a class="btn btn-success btn-lg" href="/eventPanel.jsp" role="button">Wydarzenia</a>
         </div>
         </div>
     </div>

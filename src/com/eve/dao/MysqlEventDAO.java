@@ -12,7 +12,7 @@ public class MysqlEventDAO implements EventDAO {
     private static final String CREATE_EVENT_MYSQL_QUERY = "INSERT INTO event VALUES(?, ?, ?, ?, ?);";
     private static final String GET_ALL_EVENTS_MYSQL_QUERY = "SELECT * FROM event;";
 
-    @Override
+   /* @Override
     public void create(Event event) {
         int id = event.getId();
         int users = event.getUsersCounter();
@@ -31,6 +31,11 @@ public class MysqlEventDAO implements EventDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }*/
+
+    @Override
+    public void create(Event event) {
 
     }
 
@@ -55,7 +60,7 @@ public class MysqlEventDAO implements EventDAO {
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         ManagerDAO managerDAO = factory.getManagerDAO();
 
-        try (Connection connection = ConnectionProvider.getConnection()) {
+      /*  try (Connection connection = ConnectionProvider.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_ALL_EVENTS_MYSQL_QUERY);
             while(resultSet.next()){
@@ -72,7 +77,7 @@ public class MysqlEventDAO implements EventDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
         return listOfAllEvents;
     }
 }
