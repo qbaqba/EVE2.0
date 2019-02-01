@@ -26,8 +26,12 @@ public class CreatingAccountController extends HttpServlet {
             if(session.getAttribute("accountType").equals("participant")){
                 ParticipantService participantService = new ParticipantService();
                 if(participantService.checkLoginAvailability(login) == true){
-
+                    participantService.createNewParticipant(login, password);
                 }
+                else response.sendRedirect("/index.jsp");
+            }
+            else if(session.getAttribute("accountType").equals("manager")){
+
             }
 
         }

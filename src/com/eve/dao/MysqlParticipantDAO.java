@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class MysqlParticipantDAO implements ParticipantDAO {
 
     // MYSQL QUERIES
+    private static final String SELECT_ALL_ID = "SELECT participant_id FROM participant;";
     private static final String SELECT_ALL_LOGINS = "SELECT participant_login FROM participant;";
     private static final String INSERT_NEW_PARTICIPANT = "INSERT INTO participant VALUES(?, ?, ?);";
 
@@ -60,5 +61,21 @@ public class MysqlParticipantDAO implements ParticipantDAO {
             e.printStackTrace();
         }
         return listOfLogins;
+    }
+
+    public ArrayList<Integer> getAllId(){
+        ArrayList<Integer> listOfAllId = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_ID);
+            while(resultSet.next()){
+                listOfAllId.add(resultSet.getInt("participant_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfAllId;
     }
 }

@@ -14,6 +14,7 @@ public class IdGenerator {
     private String secondDigit;
     private String thirdDigit;
     private String fourthDigit;
+    private String fouthDigit;
 
     public IdGenerator(List listOfAllId){
         this.listOfAllId = listOfAllId;
@@ -33,9 +34,11 @@ public class IdGenerator {
         secondDigit = String.valueOf(ThreadLocalRandom.current().nextInt(0, 10));
         thirdDigit = String.valueOf(ThreadLocalRandom.current().nextInt(0, 10));
         fourthDigit = String.valueOf(ThreadLocalRandom.current().nextInt(0, 10));
+        fouthDigit = String.valueOf(ThreadLocalRandom.current().nextInt(0,10));
 
-        String idToString = firstDigit + secondDigit + thirdDigit + fourthDigit;
+        String idToString = firstDigit + secondDigit + thirdDigit + fourthDigit + fouthDigit;
         randomId = Integer.parseInt(idToString);
+
     }
 
     public boolean checkRandomId(int randomId, List listOfAllId){

@@ -14,4 +14,6 @@ public interface ParticipantDAO {
     public HashMap<String, String> mapOfLoginPassword();
 
     public ArrayList<String> getAllLogin();
+
+    public ArrayList<Integer> getAllId();
 }
