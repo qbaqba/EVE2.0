@@ -33,7 +33,7 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-6 border border-success rounded mt-3 jumbotron jumbotron-fluid ">
             <h1 class="display-4 mx-auto text-center">Wprowadź dane</h1>
-            <form method="post" action="register">
+            <form method="post" action="creatingAccountController">
                 <div class="form-group row pt-5">
                     <label for="inputLogin1" class="col-sm-2 col-form-label">Login</label>
                     <div class="col-sm-10">

@@ -11,14 +11,12 @@ import java.io.IOException;
 @WebServlet("/RegisterController")
 public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String accountType = request.getParameter("string");
-        HttpSession session = request.getSession(true);
+        String accountType = request.getParameter("accountType");
+        HttpSession session = request.getSession();
         session.setAttribute("accountType", accountType);
-        request.getRequestDispatcher("/registerForm.jsp").forward(request, response);
-
+        response.sendRedirect("/registerForm.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

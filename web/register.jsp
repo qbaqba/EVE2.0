@@ -38,8 +38,8 @@
                     <p class="lead">Organizator - twórz własne wydarzenia!</p>
                     <div class="row justify-content-center mt-3">
                         <form method="post" action="RegisterController">
-                            <button type="submit" class="btn btn-success btn-lg mr-2" name="string" value="Uczestnik">Uczestnik</button>
-                            <button type="submit" class="btn btn-success btn-lg ml-2" name="string" value="Organizator">Organizator</button>
+                            <button type="submit" class="btn btn-success btn-lg mr-2" name="accountType" value="participant">Uczestnik</button>
+                            <button type="submit" class="btn btn-success btn-lg ml-2" name="accountType" value="manager">Organizator</button>
                         </form>
                     </div>
                 </div>

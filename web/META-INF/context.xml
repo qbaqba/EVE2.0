@@ -11,6 +11,6 @@
             username="root"
             password="admin"
             driverClassName="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://localhost:3306/mydb?autoReconnect=true&amp;serverTimezone=UTC&amp;useSSL=false" />
+            url="jdbc:mysql://localhost:3306/eve22?autoReconnect=true&amp;serverTimezone=UTC&amp;useSSL=false" />
 
 </Context>

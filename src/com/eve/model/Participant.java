@@ -13,6 +13,11 @@ public class Participant {
 
     public Participant(){};
 
+    public Participant(String login, String password){
+        this.login = login;
+        this.password = password;
+    }
+
     public Participant(Participant participant){
         this.id = participant.id;
         this.login = participant.login;
