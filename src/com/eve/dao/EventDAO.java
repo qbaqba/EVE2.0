@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface EventDAO {
-    public void create(Event event);
+    public void createNewEvent(Event event);
     public List getAllId();
     public ArrayList<Event> getAllEvents();
 }

@@ -12,6 +12,10 @@ public class MysqlEventDAO implements EventDAO {
     private static final String CREATE_EVENT_MYSQL_QUERY = "INSERT INTO event VALUES(?, ?, ?, ?, ?);";
     private static final String GET_ALL_EVENTS_MYSQL_QUERY = "SELECT * FROM event;";
 
+
+
+
+
    /* @Override
     public void create(Event event) {
         int id = event.getId();
@@ -35,7 +39,7 @@ public class MysqlEventDAO implements EventDAO {
     }*/
 
     @Override
-    public void create(Event event) {
+    public void createNewEvent(Event event) {
 
     }
 
