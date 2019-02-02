@@ -1,7 +1,9 @@
 package com.eve.controller;
 
 import com.eve.model.Manager;
+import com.eve.model.Participant;
 import com.eve.service.ManagerService;
+import com.eve.service.ParticipantService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,16 +19,19 @@ public class LoginController extends HttpServlet {
         String login = request.getParameter("inputLogin");
         String password = request.getParameter("inputPassword");
         ManagerService managerService = new ManagerService();
-        Manager manager = managerService.checkManagerExist(login, password);
-        if(manager != null){
-            HttpSession session = request.getSession(true);
-            session.setAttribute("manager", manager);
+        ParticipantService participantService = new ParticipantService();
+        HttpSession session = request.getSession(false);
+        if(managerService.checkLoginPassword(login,password) == true){
+            Manager loggedManager = managerService.getManagerByLogin(login);
+            session.setAttribute("loggedUser", loggedManager);
             response.sendRedirect("/mainPanelManager.jsp");
         }
-        else{
-            response.sendRedirect(request.getContextPath()+"/");
+        else if(participantService.checkLoginPassword(login, password) == true){
+            Participant loggedParticipant = participantService.getParticipantByLogin(login);
+            session.setAttribute("loggedUser", loggedParticipant);
+            response.sendRedirect("/index.jsp");
         }
-
+        else response.sendRedirect("/wrongInputPage.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

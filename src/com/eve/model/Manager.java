@@ -13,6 +13,11 @@ public class Manager {
 
     public Manager(){};
 
+    public Manager(String login, String password){
+        this.login = login;
+        this.password = password;
+    }
+
     public Manager(Manager manager){
         this.id = manager.id;
         this.login = manager.login;

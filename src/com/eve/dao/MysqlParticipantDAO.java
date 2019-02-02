@@ -13,6 +13,7 @@ public class MysqlParticipantDAO implements ParticipantDAO {
     private static final String SELECT_ALL_ID = "SELECT participant_id FROM participant;";
     private static final String SELECT_ALL_LOGINS = "SELECT participant_login FROM participant;";
     private static final String INSERT_NEW_PARTICIPANT = "INSERT INTO participant VALUES(?, ?, ?);";
+    private static final String SELECT_PARTICIPANT_BY_LOGIN = "SELECT * FROM participant WHERE participant_login=?;";
 
 
 
@@ -37,13 +38,43 @@ public class MysqlParticipantDAO implements ParticipantDAO {
     }
 
     @Override
-    public boolean checkLogin(String login) {
-        return false;
+    public Participant getParticipantByLogin(String login) {
+        Participant participant = null;
+
+        try {
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PARTICIPANT_BY_LOGIN);
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            int participantId = resultSet.getInt("participant_id");
+            String participantLogin = resultSet.getString("participant_login");
+            String participantPassword = resultSet.getString("participant_password");
+            participant = new Participant(participantLogin, participantPassword);
+            participant.setId(participantId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return participant;
     }
 
+
     @Override
-    public HashMap<String, String> mapOfLoginPassword() {
-        return null;
+    public HashMap<String, String> getMapOfLoginPassword() {
+        HashMap<String, String> mapOfLoginPassword = new HashMap<>();
+        try {
+            Connection connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT participant_login, participant_password FROM participant;");
+            while(resultSet.next()){
+                String login = resultSet.getString("participant_login");
+                String password = resultSet.getString("participant_password");
+                mapOfLoginPassword.put(login, password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mapOfLoginPassword;
     }
 
     // this method returns ArrayList with all participants login from database
@@ -62,7 +93,7 @@ public class MysqlParticipantDAO implements ParticipantDAO {
         }
         return listOfLogins;
     }
-
+    // this method returns ArrayList with all participants id from database
     public ArrayList<Integer> getAllId(){
         ArrayList<Integer> listOfAllId = new ArrayList<>();
         Connection connection = null;
@@ -78,4 +109,6 @@ public class MysqlParticipantDAO implements ParticipantDAO {
         }
         return listOfAllId;
     }
+
+
 }

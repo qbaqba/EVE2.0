@@ -9,9 +9,9 @@ public interface ParticipantDAO {
 
     public void createNewParticipant(Participant participant);
 
-    public boolean checkLogin(String login);
+    public Participant getParticipantByLogin(String login);
 
-    public HashMap<String, String> mapOfLoginPassword();
+    public HashMap<String, String> getMapOfLoginPassword();
 
     public ArrayList<String> getAllLogin();
 

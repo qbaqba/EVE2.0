@@ -1,6 +1,7 @@
 package com.eve.controller;
 
 import com.eve.helper.InputVerifier;
+import com.eve.service.ManagerService;
 import com.eve.service.ParticipantService;
 
 import javax.servlet.ServletException;
@@ -20,20 +21,22 @@ public class CreatingAccountController extends HttpServlet {
         InputVerifier inputVerifier = new InputVerifier(3, 15);
 
         if(inputVerifier.checkLengthOfString(login) == false || inputVerifier.checkLengthOfString(password) == false){
-            response.sendRedirect("/index.jsp");
+            response.sendRedirect("/wrongInputPage.jsp");
         }
-        else{
-            if(session.getAttribute("accountType").equals("participant")){
-                ParticipantService participantService = new ParticipantService();
-                if(participantService.checkLoginAvailability(login) == true){
+        else {
+            ParticipantService participantService = new ParticipantService();
+            ManagerService managerService = new ManagerService();
+            if(managerService.checkLoginAvailability(login) == true && participantService.checkLoginAvailability(login) == true){
+                if(session.getAttribute("accountType").equals("participant")){
                     participantService.createNewParticipant(login, password);
+                    response.sendRedirect("/index.jsp");
                 }
-                else response.sendRedirect("/index.jsp");
+                else if(session.getAttribute("accountType").equals("manager")){
+                    managerService.createNewManager(login, password);
+                    response.sendRedirect("/index.jsp");
+                }
             }
-            else if(session.getAttribute("accountType").equals("manager")){
-
-            }
-
+            else response.sendRedirect("/wrongInputPage.jsp");
         }
     }
 

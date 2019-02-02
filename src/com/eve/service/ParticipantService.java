@@ -6,6 +6,7 @@ import com.eve.helper.IdGenerator;
 import com.eve.model.Participant;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class ParticipantService {
@@ -25,5 +26,25 @@ public class ParticipantService {
         IdGenerator idGenerator = new IdGenerator(participantDAO.getAllId());
         participant.setId(idGenerator.selectCorrectId());
         participantDAO.createNewParticipant(participant);
+    }
+    @SuppressWarnings("Duplicates")
+    public boolean checkLoginPassword(String login, String password){
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        ParticipantDAO participantDAO = factory.getParticipantDAO();
+        HashMap<String, String> mapOfLoginPassword = participantDAO.getMapOfLoginPassword();
+        if(mapOfLoginPassword.containsKey(login)){
+            String testPassword = mapOfLoginPassword.get(login);
+            if(testPassword.equals(password)) return true;
+            else return false;
+        }
+        else return false;
+    }
+
+    public Participant getParticipantByLogin(String login){
+        Participant participant;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        ParticipantDAO participantDAO = factory.getParticipantDAO();
+        participant = participantDAO.getParticipantByLogin(login);
+        return participant;
     }
 }
