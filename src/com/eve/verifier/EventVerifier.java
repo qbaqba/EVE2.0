@@ -6,15 +6,13 @@ import java.time.LocalDateTime;
 
 public class EventVerifier extends InputVerifier {
 
-    private int id;
     private String name;
     private String location;
     private String description;
     private double ticketPrice;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private EventCategory eventCategory;
-    private int managerId;
+
 
     public EventVerifier(String name, String location, String description, double ticketPrice){
         this.name = name;
@@ -45,13 +43,7 @@ public class EventVerifier extends InputVerifier {
     }
 
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -101,21 +93,6 @@ public class EventVerifier extends InputVerifier {
         this.endDate = endDate;
     }
 
-    public EventCategory getEventCategory() {
-        return eventCategory;
-    }
-
-    public void setEventCategory(EventCategory eventCategory) {
-        this.eventCategory = eventCategory;
-    }
-
-    public int getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(int managerId) {
-        this.managerId = managerId;
-    }
 
     @Override
     boolean isCorrectInput() {

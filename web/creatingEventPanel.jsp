@@ -22,6 +22,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center mt-2">
         <div class="col-6">
+            <div class="jumbotron jumbotron-fluid border border-success text-center rounded">
             <form method="post" action="CreatingEventController">
                 <div class="form-group">
                     <label for="inputName">Nazwa wydarzenia</label>
@@ -32,8 +33,43 @@
                     <input type="text" name="inputLocation" class="form-control" id="inputLocation">
                 </div>
                 <div class="form-group">
-                    <label for="describtionArea">Opis wydarzenia</label>
-                    <textarea class="form-control" id="describtionArea" rows="4"></textarea>
+                    <label for="descriptionArea">Opis wydarzenia</label>
+                    <textarea class="form-control" id="descriptionArea" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputPrice">Cena</label>
+                    <input type="text" name="inputPrice" class="form-control" id="inputPrice">
+                </div>
+                <div class="form-group">
+                    <label for="inputStartDate">Data rozpoczecia</label>
+                    <input type="date" name="inputStartDate" class="form-control" id="inputStartDate">
+                </div>
+                <div class="form-group">
+                    <label for="inputStartTime">Godzina rozpoczęcia</label>
+                    <input type="time" name="inputStartTime" class="form-control" id="inputStartTime">
+                </div>
+                <div class="form-group">
+                    <label for="inputEndDate">Data zakończenia</label>
+                    <input type="date" name="inputEndDate" class="form-control" id="inputEndDate">
+                </div>
+                <div class="form-group">
+                    <label for="inputEndTime">Godzina zakończenia</label>
+                    <input type="time" name="inputEndTime" class="form-control" id="inputEndTime">
+                </div>
+                <div class="form-group">
+                    <label for="inputCategory">Wybierz kategorię</label>
+                    <select class="custom-select" id="inputCategory">
+                        <option selected>Kategoria</option>
+                        <option value="sport">Sport</option>
+                        <option value="music">Muzyka</option>
+                        <option value="culture">Kultura</option>
+                        <option value="food">Jedzenie</option>
+                        <option value="shopping">Zakupy</option>
+                        <option value="hobby">Hobby</option>
+                        <option value="learning">Nauka</option>
+                        <option value="work">Praca</option>
+                        <option value="other">Inne</option>
+                    </select>
                 </div>
                 <div class="form-group row ">
                     <div class="mx-auto  ">
@@ -42,7 +78,7 @@
                 </div>
 
             </form>
-
+            </div>
         </div>
     </div>
 </div>

@@ -28,10 +28,10 @@
         </form>
         <ul class="navbar-nav ml-auto mt-3">
             <c:choose>
-                <c:when test="${not empty sessionScope.manager}">
+                <c:when test="${not empty sessionScope.loggedUser}">
                     <li class="nav-item mr-1">
                         <form action="/mainPanelManager.jsp" method="get">
-                            <button type="submit" class="btn btn-success"><c:out value="${sessionScope.manager.login}"> </c:out></button>
+                            <button type="submit" class="btn btn-success"><c:out value="${sessionScope.loggedUser.login}"> </c:out></button>
                         </form>
                     </li>
                     <li class="nav-item">
