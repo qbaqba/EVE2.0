@@ -2,48 +2,44 @@ package com.eve.verifier;
 
 import com.eve.model.EventCategory;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class EventVerifier extends InputVerifier {
 
     private String name;
     private String location;
     private String description;
-    private double ticketPrice;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String ticketPrice;
+    private String startDate;
+    private String endDate;
+    private String startTime;
+    private String endTime;
+    private String category;
 
+    private boolean isCorrectInput;
 
-    public EventVerifier(String name, String location, String description, double ticketPrice){
+    public EventVerifier(){}
+
+    public EventVerifier(String name, String location, String description, String ticketPrice){
         this.name = name;
         this.location = location;
         this.description = description;
         this.ticketPrice = ticketPrice;
     }
 
-    private boolean checkName(){
-        if(name.length()>45 || name.length()<3){
-            return false;
-        }
-        else return true;
-    }
-
-    private boolean checkLocation(){
-        if(location.length()>45 || location.length()<3 ){
-            return false;
-        }
-        else return true;
-    }
-
-    private boolean checkDescription(){
-        if(description.length()>2048 ){
-            return false;
-        }
-        else return true;
+    public void setDate(String startDate, String startTime, String endDate, String endTime){
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
     }
 
 
+    public void setIsCorrectInput(){
 
+    }
 
     public String getName() {
         return name;
@@ -69,33 +65,82 @@ public class EventVerifier extends InputVerifier {
         this.description = description;
     }
 
-    public double getTicketPrice() {
+    public String getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(double ticketPrice) {
+    public void setTicketPrice(String ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
 
-    public LocalDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+
+    private boolean checkName(){
+        if(name.length() > 45 || name.length() < 1 || name == null){
+            return false;
+        }
+        else return true;
+    }
+
+    private boolean checkLocation(){
+        if(location.length() > 45 || location.length() < 1 || location == null){
+            return false;
+        }
+        else return true;
+    }
+
+    private boolean checkDescription(){
+        if(description.length()>2048 ){
+            return false;
+        }
+        else return true;
+    }
+
+    private boolean checkTicketPrice(){
+
+    }
 
     @Override
     boolean isCorrectInput() {
-        return false;
+        return isCorrectInput;
     }
 }

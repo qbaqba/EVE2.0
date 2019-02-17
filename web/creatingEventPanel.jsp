@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label for="descriptionArea">Opis wydarzenia</label>
-                    <textarea class="form-control" id="descriptionArea" rows="4"></textarea>
+                    <textarea class="form-control" name="inputDescription" id="descriptionArea" rows="4"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="inputPrice">Cena</label>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="form-group">
                     <label for="inputCategory">Wybierz kategorię</label>
-                    <select class="custom-select" id="inputCategory">
+                    <select class="custom-select" name="inputCategory" id="inputCategory">
                         <option selected>Kategoria</option>
                         <option value="sport">Sport</option>
                         <option value="music">Muzyka</option>
