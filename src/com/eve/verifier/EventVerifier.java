@@ -18,6 +18,16 @@ public class EventVerifier extends InputVerifier {
     private String endTime;
     private String category;
 
+    private EventInputConverter eventInputConverter;
+
+    private LocalDate convertedStartDate;
+    private LocalDate convertedEndDate;
+
+    public void setConvertedStartDate() {
+      //  convertedStartDate = LocalDate.of();
+    }
+
+    private double convertedToDoubleTicketPrice;
     private boolean isCorrectInput;
 
     public EventVerifier(){}
@@ -40,6 +50,16 @@ public class EventVerifier extends InputVerifier {
     public void setIsCorrectInput(){
 
     }
+
+    public double getConvertedToDoubleTicketPrice() {
+        return convertedToDoubleTicketPrice;
+    }
+
+    public void setConvertedToDoubleTicketPrice(double convertedToDoubleTicketPrice) {
+        this.convertedToDoubleTicketPrice = convertedToDoubleTicketPrice;
+    }
+
+
 
     public String getName() {
         return name;
@@ -136,7 +156,22 @@ public class EventVerifier extends InputVerifier {
     }
 
     private boolean checkTicketPrice(){
+        String convertedTicketPrice;
+        try{
+            convertedTicketPrice = ticketPrice.replaceAll(",", ".");
+            convertedToDoubleTicketPrice = Double.parseDouble(convertedTicketPrice);
+            if(convertedToDoubleTicketPrice <= 0){
+                convertedToDoubleTicketPrice = 0;
+            }
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
 
+    private boolean checkDate(){
+        return true;
     }
 
     @Override
