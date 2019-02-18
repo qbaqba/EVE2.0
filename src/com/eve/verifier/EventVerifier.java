@@ -20,14 +20,7 @@ public class EventVerifier extends InputVerifier {
 
     private EventInputConverter eventInputConverter;
 
-    private LocalDate convertedStartDate;
-    private LocalDate convertedEndDate;
 
-    public void setConvertedStartDate() {
-      //  convertedStartDate = LocalDate.of();
-    }
-
-    private double convertedToDoubleTicketPrice;
     private boolean isCorrectInput;
 
     public EventVerifier(){}
@@ -46,18 +39,25 @@ public class EventVerifier extends InputVerifier {
         this.endTime = endTime;
     }
 
+    public void setEventInputConverter(){
+        eventInputConverter = new EventInputConverter(ticketPrice, category);
+        eventInputConverter.setDate(startDate, endDate, startTime, endTime);
+        eventInputConverter.convertFields();
+    }
+
 
     public void setIsCorrectInput(){
-
+        int sumOfTrueConditions = 0;
+        if(checkName() == true && checkLocation() == true && checkDescription() == true){
+            sumOfTrueConditions++;
+        }
+        if(checkTicketPrice() == true && checkDate() == true && checkCategory() == true){
+            sumOfTrueConditions++;
+        }
+        if(sumOfTrueConditions == 2) isCorrectInput = true;
+        else isCorrectInput = false;
     }
 
-    public double getConvertedToDoubleTicketPrice() {
-        return convertedToDoubleTicketPrice;
-    }
-
-    public void setConvertedToDoubleTicketPrice(double convertedToDoubleTicketPrice) {
-        this.convertedToDoubleTicketPrice = convertedToDoubleTicketPrice;
-    }
 
 
 
@@ -135,43 +135,44 @@ public class EventVerifier extends InputVerifier {
 
 
     private boolean checkName(){
-        if(name.length() > 45 || name.length() < 1 || name == null){
-            return false;
-        }
-        else return true;
+        return name.length() <= 45 && name.length() >= 1 && name != null;
     }
 
     private boolean checkLocation(){
-        if(location.length() > 45 || location.length() < 1 || location == null){
-            return false;
-        }
-        else return true;
+        return location.length() <= 45 && location.length() >= 1 && location != null;
     }
 
     private boolean checkDescription(){
-        if(description.length()>2048 ){
-            return false;
-        }
-        else return true;
+        return description.length() <= 2048;
     }
 
     private boolean checkTicketPrice(){
-        String convertedTicketPrice;
-        try{
-            convertedTicketPrice = ticketPrice.replaceAll(",", ".");
-            convertedToDoubleTicketPrice = Double.parseDouble(convertedTicketPrice);
-            if(convertedToDoubleTicketPrice <= 0){
-                convertedToDoubleTicketPrice = 0;
-            }
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+        return eventInputConverter.getConvertedTicketPrice() != null;
     }
 
     private boolean checkDate(){
-        return true;
+        boolean isCorrectDate = false;
+        int sumOfTrueConditions = 0;
+        if(eventInputConverter.getConvertedStartDate() != null && eventInputConverter.getConvertedEndDate() != null){
+            sumOfTrueConditions++;
+        }
+        if(eventInputConverter.getConvertedStartTime() != null && eventInputConverter.getConvertedEndTime() != null){
+            sumOfTrueConditions++;
+        }
+
+        if(sumOfTrueConditions == 2){
+            LocalDateTime startFullDate = LocalDateTime.of(eventInputConverter.getConvertedStartDate(), eventInputConverter.getConvertedStartTime());
+            LocalDateTime endFullDate = LocalDateTime.of(eventInputConverter.getConvertedEndDate(), eventInputConverter.getConvertedEndTime());
+            if((startFullDate.isBefore(endFullDate) || startFullDate.equals(endFullDate)) && (startFullDate.isAfter(LocalDateTime.now()))){
+                isCorrectDate = true;
+            }
+            else isCorrectDate = false;
+        }
+        return isCorrectDate;
+    }
+
+    private boolean checkCategory(){
+        return eventInputConverter.getConvertedCategory() != null;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class CreatingEventController extends HttpServlet {
         EventVerifier eventVerifier = new EventVerifier(name,location,description,price);
         eventVerifier.setDate(dateStart, timeStart, dateEnd, timeEnd);
         eventVerifier.setCategory(category);
-
+        eventVerifier.setEventInputConverter();
 
         System.out.println(name+location+description+price+dateStart+dateEnd+timeStart+timeEnd+category);
 

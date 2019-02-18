@@ -5,6 +5,8 @@ import com.eve.model.EventCategory;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static com.eve.model.EventCategory.MUSIC;
+
 public class EventInputConverter {
 
     private String ticketPrice;
@@ -14,12 +16,12 @@ public class EventInputConverter {
     private String endTime;
     private String category;
 
-    private double convertedTicketPrice;
+    private Double convertedTicketPrice;
     private LocalDate convertedStartDate;
     private LocalDate convertedEndDate;
     private LocalTime convertedStartTime;
     private LocalTime convertedEndTime;
-    private EventCategory convetedCategory;
+    private EventCategory convertedCategory;
 
     public EventInputConverter(String ticketPrice, String category){
         this.ticketPrice = ticketPrice;
@@ -32,6 +34,35 @@ public class EventInputConverter {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+
+    public void convertFields(){
+        setTicketPrice();
+        setStartDate();
+        setEndDate();
+        setStartTime();
+        setEndTime();
+        setCategory();
+    }
+
+    public void setTicketPrice(){
+        try{
+            if(ticketPrice.contains(",")){
+                String convertedStringTicketPrice = ticketPrice.replaceAll(",",".");
+                convertedTicketPrice = Double.valueOf(convertedStringTicketPrice);
+            }
+            else{
+                convertedTicketPrice = Double.valueOf(ticketPrice);
+            }
+            if(convertedTicketPrice <= 0){
+                convertedTicketPrice = 0.0;
+            }
+        }
+        catch (Exception e){
+            convertedTicketPrice = null;
+        }
+    }
+
     @SuppressWarnings("Duplicates")
     public void setStartDate(){
         try{
@@ -42,7 +73,7 @@ public class EventInputConverter {
             convertedStartDate = LocalDate.of(year, month, day);
         }
         catch (Exception e){
-            convertedStartDate = LocalDate.of(3001,01,01);
+            convertedStartDate = null;
         }
     }
     @SuppressWarnings("Duplicates")
@@ -55,7 +86,7 @@ public class EventInputConverter {
             convertedEndDate = LocalDate.of(year, month, day);
         }
         catch (Exception e){
-            convertedEndDate = LocalDate.of(3000,01,01);
+            convertedEndDate = null;
     }
     }
 
@@ -84,6 +115,36 @@ public class EventInputConverter {
         }
     }
 
-    public void setC
+    public void setCategory(){
+        try{
+            convertedCategory = EventCategory.valueOf(category.toUpperCase());
+        }
+        catch (Exception e){
+            convertedCategory = null;
+        }
+    }
 
+    public Double getConvertedTicketPrice() {
+        return convertedTicketPrice;
+    }
+
+    public LocalDate getConvertedStartDate() {
+        return convertedStartDate;
+    }
+
+    public LocalDate getConvertedEndDate() {
+        return convertedEndDate;
+    }
+
+    public LocalTime getConvertedStartTime() {
+        return convertedStartTime;
+    }
+
+    public LocalTime getConvertedEndTime() {
+        return convertedEndTime;
+    }
+
+    public EventCategory getConvertedCategory() {
+        return convertedCategory;
+    }
 }
