@@ -1,6 +1,7 @@
 package com.eve.dao;
 
 import com.eve.model.Event;
+import com.eve.model.EventCategory;
 import com.eve.model.Manager;
 import com.eve.util.ConnectionProvider;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class MysqlEventDAO implements EventDAO {
 
-    private static final String CREATE_EVENT_MYSQL_QUERY = "INSERT INTO event VALUES(?, ?, ?, ?, ?);";
+    private static final String INSERT_NEW_EVENT = "INSERT INTO event VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String GET_ALL_EVENTS_MYSQL_QUERY = "SELECT * FROM event;";
 
 
@@ -40,7 +41,32 @@ public class MysqlEventDAO implements EventDAO {
 
     @Override
     public void createNewEvent(Event event) {
+        int eventID = event.getId();
+        String eventName = event.getName();
+        String eventLocation = event.getLocation();
+        String eventDescription = event.getDescription();
+        double eventTicketPrice = event.getTicketPrice();
+        String eventStartDate = event.getStartDate().toString().replaceAll("T", " ");
+        String eventEndDate = event.getEndDate().toString().replaceAll("T", " ");
+        String eventCategory = String.valueOf(event.getCategory()).toLowerCase();
+        int managerID = event.getManager().getId();
 
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NEW_EVENT);
+            preparedStatement.setInt(1, eventID);
+            preparedStatement.setString(2, eventName);
+            preparedStatement.setString(3, eventLocation);
+            preparedStatement.setString(4, eventDescription);
+            preparedStatement.setDouble(5, eventTicketPrice);
+            preparedStatement.setString(6, eventStartDate);
+            preparedStatement.setString(7, eventEndDate);
+            preparedStatement.setString(8, eventCategory);
+            preparedStatement.setInt(9, managerID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Integer> getAllId() {

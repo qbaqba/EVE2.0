@@ -1,5 +1,6 @@
 package com.eve.controller;
 
+import com.eve.model.Event;
 import com.eve.model.Manager;
 import com.eve.service.EventService;
 import com.eve.service.ManagerService;
@@ -36,6 +37,14 @@ public class CreatingEventController extends HttpServlet {
         eventVerifier.setDate(dateStart, timeStart, dateEnd, timeEnd);
         eventVerifier.setCategory(category);
         eventVerifier.setEventInputConverter();
+        eventVerifier.setIsCorrectInput();
+
+        if(eventVerifier.isCorrectInput() == true){
+            Event event = new Event();
+        }
+        else{
+            response.sendRedirect("/wrongInputPage.jsp");
+        }
 
         System.out.println(name+location+description+price+dateStart+dateEnd+timeStart+timeEnd+category);
 

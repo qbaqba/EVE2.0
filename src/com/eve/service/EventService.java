@@ -19,6 +19,14 @@ public class EventService {
         eventDAO.create(event);*/
     }
 
+    public void convertStrings(){
+
+    }
+
+    public void createNewEvent(String eventName, String eventLocation ){
+
+    }
+
     public ArrayList<Event> getAllEvents(){
         ArrayList<Event> listOfAllEvents = new ArrayList<>();
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();

@@ -1,12 +1,9 @@
 package com.eve.verifier;
-
-import com.eve.model.EventCategory;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class EventVerifier extends InputVerifier {
+
+    // FIELDS
 
     private String name;
     private String location;
@@ -20,8 +17,9 @@ public class EventVerifier extends InputVerifier {
 
     private EventInputConverter eventInputConverter;
 
-
     private boolean isCorrectInput;
+
+    // CONSTRUCTORS
 
     public EventVerifier(){}
 
@@ -32,34 +30,7 @@ public class EventVerifier extends InputVerifier {
         this.ticketPrice = ticketPrice;
     }
 
-    public void setDate(String startDate, String startTime, String endDate, String endTime){
-        this.startDate = startDate;
-        this.startTime = startTime;
-        this.endDate = endDate;
-        this.endTime = endTime;
-    }
-
-    public void setEventInputConverter(){
-        eventInputConverter = new EventInputConverter(ticketPrice, category);
-        eventInputConverter.setDate(startDate, endDate, startTime, endTime);
-        eventInputConverter.convertFields();
-    }
-
-
-    public void setIsCorrectInput(){
-        int sumOfTrueConditions = 0;
-        if(checkName() == true && checkLocation() == true && checkDescription() == true){
-            sumOfTrueConditions++;
-        }
-        if(checkTicketPrice() == true && checkDate() == true && checkCategory() == true){
-            sumOfTrueConditions++;
-        }
-        if(sumOfTrueConditions == 2) isCorrectInput = true;
-        else isCorrectInput = false;
-    }
-
-
-
+    // GETTERS AND SETTERS
 
     public String getName() {
         return name;
@@ -129,10 +100,44 @@ public class EventVerifier extends InputVerifier {
         return category;
     }
 
+    public void setCorrectInput(boolean isCorrectInput){
+        this.isCorrectInput = isCorrectInput;
+    }
+
+    public boolean getIsCorrectInput(){
+        return isCorrectInput;
+    }
+
     public void setCategory(String category) {
         this.category = category;
     }
 
+    public void setDate(String startDate, String startTime, String endDate, String endTime){
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+    }
+
+    // METHODS
+
+    public void setEventInputConverter(){
+        eventInputConverter = new EventInputConverter(ticketPrice, category);
+        eventInputConverter.setDate(startDate, endDate, startTime, endTime);
+        eventInputConverter.convertFields();
+    }
+
+    public void setIsCorrectInput(){
+        int sumOfTrueConditions = 0;
+        if(checkName() == true && checkLocation() == true && checkDescription() == true){
+            sumOfTrueConditions++;
+        }
+        if(checkTicketPrice() == true && checkDate() == true && checkCategory() == true){
+            sumOfTrueConditions++;
+        }
+        if(sumOfTrueConditions == 2) isCorrectInput = true;
+        else isCorrectInput = false;
+    }
 
     private boolean checkName(){
         return name.length() <= 45 && name.length() >= 1 && name != null;
@@ -176,7 +181,7 @@ public class EventVerifier extends InputVerifier {
     }
 
     @Override
-    boolean isCorrectInput() {
+    public boolean isCorrectInput() {
         return isCorrectInput;
     }
 }
