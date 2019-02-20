@@ -24,11 +24,13 @@ public class LoginController extends HttpServlet {
         if(managerService.checkLoginPassword(login,password) == true){
             Manager loggedManager = managerService.getManagerByLogin(login);
             session.setAttribute("loggedUser", loggedManager);
+            session.setAttribute("managerID", loggedManager.getId());
             response.sendRedirect("/mainPanelManager.jsp");
         }
         else if(participantService.checkLoginPassword(login, password) == true){
             Participant loggedParticipant = participantService.getParticipantByLogin(login);
             session.setAttribute("loggedUser", loggedParticipant);
+            session.setAttribute("participantID", loggedParticipant.getId());
             response.sendRedirect("/index.jsp");
         }
         else response.sendRedirect("/wrongInputPage.jsp");

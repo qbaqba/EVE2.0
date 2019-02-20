@@ -1,5 +1,6 @@
 package com.eve.controller;
 
+import com.eve.helper.converter.EventConverter;
 import com.eve.model.Event;
 import com.eve.model.Manager;
 import com.eve.service.EventService;
@@ -23,6 +24,8 @@ public class CreatingEventController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name, location, description, price, dateStart, dateEnd, timeStart, timeEnd, category;
 
+        Manager manager = (Manager) request.getSession().getAttribute("loggedUser");
+
         name = request.getParameter("inputName");
         location = request.getParameter("inputLocation");
         description = request.getParameter("inputDescription");
@@ -40,7 +43,12 @@ public class CreatingEventController extends HttpServlet {
         eventVerifier.setIsCorrectInput();
 
         if(eventVerifier.isCorrectInput() == true){
-            Event event = new Event();
+            EventConverter event = new EventConverter(price, category, manager);
+            event.setDate(dateStart, dateEnd, timeStart, timeEnd);
+            event.setNotConvertedFields(name, location, description);
+            event.setConvertedFields();
+            Event newEvent =  event;
+
         }
         else{
             response.sendRedirect("/wrongInputPage.jsp");
