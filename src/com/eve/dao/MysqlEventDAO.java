@@ -13,32 +13,6 @@ public class MysqlEventDAO implements EventDAO {
     private static final String INSERT_NEW_EVENT = "INSERT INTO event VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String GET_ALL_EVENTS_MYSQL_QUERY = "SELECT * FROM event;";
 
-
-
-
-
-   /* @Override
-    public void create(Event event) {
-        int id = event.getId();
-        int users = event.getUsersCounter();
-        String name = event.getName();
-        String location = event.getLocation();
-        int managerId = event.getManager().getId();
-
-        try (Connection connection = ConnectionProvider.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_EVENT_MYSQL_QUERY);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, location);
-            preparedStatement.setInt(4,managerId);
-            preparedStatement.setInt(5,users);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }*/
-
     @Override
     public void createNewEvent(Event event) {
         int eventID = event.getId();
@@ -74,9 +48,9 @@ public class MysqlEventDAO implements EventDAO {
 
         try (Connection connection = ConnectionProvider.getConnection()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT id FROM event;");
+            ResultSet resultSet = statement.executeQuery("SELECT event_id FROM event;");
             while(resultSet.next()){
-                listOfAllId.add(resultSet.getInt("id"));
+                listOfAllId.add(resultSet.getInt("event_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

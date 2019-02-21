@@ -47,8 +47,8 @@ public class CreatingEventController extends HttpServlet {
             event.setDate(dateStart, dateEnd, timeStart, timeEnd);
             event.setNotConvertedFields(name, location, description);
             event.setConvertedFields();
-            Event newEvent =  event;
-
+            EventService eventService = new EventService();
+            eventService.createEvent(event);
         }
         else{
             response.sendRedirect("/wrongInputPage.jsp");

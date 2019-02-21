@@ -73,7 +73,7 @@ public class EventConverter extends Event {
         hour = Integer.parseInt(endTime.substring(0,2));
         minute = Integer.parseInt(endTime.substring(3,5));
         endDateTime = LocalDateTime.of(year,month,day,hour,minute);
-        super.setStartDate(endDateTime);
+        super.setEndDate(endDateTime);
     }
 
     public Event getNewEvent(){

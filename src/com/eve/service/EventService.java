@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class EventService {
 
-    public void createEvent(String name, String location, Manager manager){
-       /* Event event = new Event(name, location, manager);
+    public void createEvent(Event event){
+        Event newEvent = event;
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         EventDAO eventDAO = factory.getEventDAO();
         IdGenerator idGenerator = new IdGenerator(eventDAO.getAllId());
-        event.setId(idGenerator.selectCorrectId());
-        eventDAO.create(event);*/
+        newEvent.setId(idGenerator.selectCorrectId());
+        eventDAO.createNewEvent(newEvent);
     }
 
     public void convertStrings(){
