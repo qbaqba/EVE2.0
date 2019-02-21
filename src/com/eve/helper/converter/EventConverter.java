@@ -15,6 +15,8 @@ public class EventConverter extends Event {
     private String startTime;
     private String endTime;
 
+    public EventConverter(){}
+
     public EventConverter(String ticketPrice, String category, Manager manager){
         this.ticketPrice = ticketPrice;
         this.category = category;

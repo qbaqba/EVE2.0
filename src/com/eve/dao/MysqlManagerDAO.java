@@ -55,24 +55,7 @@ public class MysqlManagerDAO implements ManagerDAO {
         }
         return listOfLogins;
      }
-    /*public Manager getManager(String login, String password) {
-        Manager manager = new Manager(login, password);
-        int id = 0;
-        try (Connection connection = ConnectionProvider.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_MANAGER_SQL_QUERRY);
-            preparedStatement.setString(1, login);
-            preparedStatement.setString(2, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                id = resultSet.getInt("id");
-            }
-            manager.setId(id);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return manager;
-    }*/
 
    /* @Override
     public Manager getManagerById(int id) {
@@ -153,6 +136,7 @@ public class MysqlManagerDAO implements ManagerDAO {
             String managerPassword = resultSet.getString("manager_password");
             manager = new Manager(managerLogin, managerPassword);
             manager.setId(managerId);
+           // manager.setListOfCreatedEvents();
         } catch (SQLException e) {
             e.printStackTrace();
         }

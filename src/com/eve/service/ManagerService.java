@@ -1,6 +1,7 @@
 package com.eve.service;
 
 import com.eve.dao.DAOFactory;
+import com.eve.dao.EventDAO;
 import com.eve.dao.ManagerDAO;
 import com.eve.dao.ParticipantDAO;
 import com.eve.helper.IdGenerator;
@@ -46,7 +47,9 @@ public class ManagerService {
         Manager manager;
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         ManagerDAO managerDAO = factory.getManagerDAO();
+        EventDAO eventDAO = factory.getEventDAO();
         manager = managerDAO.getManagerByLogin(login);
+        manager.setListOfCreatedEvents(eventDAO.getAllEventsCreatedByManager(manager));
         return manager;
     }
 
