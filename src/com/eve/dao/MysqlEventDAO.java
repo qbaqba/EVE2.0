@@ -13,7 +13,7 @@ public class MysqlEventDAO implements EventDAO {
 
     private static final String INSERT_NEW_EVENT = "INSERT INTO event VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String GET_ALL_EVENTS_MYSQL_QUERY = "SELECT * FROM event;";
-    private static final String GET_ALL_EVENTS_BY_MANAGER = "SELECT * FROM event WHERE manager_id=?,";
+    private static final String GET_ALL_EVENTS_BY_MANAGER = "SELECT * FROM event WHERE manager_id=?;";
 
     @Override
     public void createNewEvent(Event event) {
@@ -77,7 +77,7 @@ public class MysqlEventDAO implements EventDAO {
                 event.setTicketPrice(resultSet.getDouble("event_ticket_price"));
                 event.setStartDate(resultSet.getTimestamp("event_start_Date").toLocalDateTime());
                 event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
-                event.setCategory(EventCategory.valueOf(resultSet.getString("event_category")));
+                event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
                 event.setManager(manager);
                 listOfAllEventsCreatedByManager.add(event);
             }
