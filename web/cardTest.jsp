@@ -23,13 +23,13 @@
     <div class="row d-flex mt-5">
         <div class="col-8 border-dark mx-auto">
 
-            <div class="card mx-auto bg-dark text-white border-dark" style="width: 18rem;">
+        <%--    <div class="card mx-auto bg-dark text-white border-dark" style="width: 18rem;">
                 <div class="card-header">${sessionScope.currentEvent.category}</div>
                 <div class="card-body">
                     <h5 class="card-title">${sessionScope.currentEvent.name}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${sessionScope.currentEvent.manager.login}</h6>
                     <ul class="list-group list-group-flush bg-dark">
-                        <li class="list-group-item bg-dark pl-0">Lokalizacja: ${sessionScope.loggedUser.listOfCreatedEvents.size}</li>
+                        <li class="list-group-item bg-dark pl-0">Lokalizacja: ${sessionScope.currentEvent.location}</li>
                         <li class="list-group-item bg-dark pl-0">Cena biletu: 27,00</li>
                         <li class="list-group-item bg-dark pl-0">Data początek: 23.02.2018</li>
                         <li class="list-group-item bg-dark pl-0">Data koniec: 24.02.2018</li>
@@ -38,25 +38,63 @@
                     <a href="#" class="card-link pt-3">Dołącz</a>
                 </div>
             </div>
+--%>
 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 
-                    <c:forEach begin="0" end="2" varStatus="loop">
-                        <li class="page-item"><a class="page-link" href="#">${loop.count}</a></li>
+
+
+
+
+
+       <%--     <c:forEach begin="0" end="2" varStatus="loop">
+                <div class="row d-flex mt-2">
+                    <c:forEach items="${requestScope.listOfEventsForPage}" var="event"
+                               begin="${(loop.count - 1) * 3}" end="${(loop.count * 3) - 1}">
+                                <c:if test="${!empty event}">
+
+                                </c:if>
+
                     </c:forEach>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
+                </div>
+            </c:forEach>
+--%>
 
-            <c:forEach items="${sessionScope.collection}">
+            <c:forEach begin="0" end="2" varStatus="loop">
+                <div class="row d-flex mt-2">
+                    <c:forEach items="${requestScope.listOfIntegersForPage}" var="event"
+                               begin="${(loop.count - 1) * 3}" end="${(loop.count * 3) - 1}">
+                        <c:if test="${!empty event}">
+                            <div class="card mx-auto bg-dark text-white border-dark" style="width: 18rem;">
+                                <div class="card-header">${event}</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="#" class="card-link">Card link</a>
+                                    <a href="#" class="card-link">Another link</a>
+                                </div>
+                            </div>
+                        </c:if>
 
+                    </c:forEach>
+                </div>
             </c:forEach>
 
+            <div class="row d-flex mt-5">
+                <div class="col-8">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <c:forEach begin="0" end="${requestScope.countOfPages - 1}" varStatus="loop">
+                                <li class="page-item"><a class="page-link" href="#">${loop.count}</a></li>
+                            </c:forEach>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
 
-
-            <c:forEach begin="0" end="2">
+           <%-- <c:forEach begin="0" end="2">
                 <div class="row d-flex mt-2">
                 <c:forEach begin="0" end="2">
                     <div class="card mx-auto bg-info text-white border-dark" style="width: 18rem;">
@@ -72,13 +110,17 @@
                 </c:forEach>
                 </div>
             </c:forEach>
-
-            <c:forEach begin="0" end="2">
+--%>
+          <%--  <c:forEach begin="0" end="${requestScope.countOfPages-1}">
                 <p> Cos tam</p>
             </c:forEach>
-
+           --%>
         </div>
     </div>
+    <div class="row d-flex mt-5 mx-auto ">
+        <div class="col-8 mx-auto"></div>
+    </div>
+
 </div>
 
 
