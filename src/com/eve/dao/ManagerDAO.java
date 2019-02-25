@@ -14,7 +14,7 @@ public interface ManagerDAO {
 
     public Manager getManager(String login, String password);
 
-    public Manager getManagerById(int id);
+    public Manager getManagerByManagerId(int managerId);
 
     public Manager getManagerByLogin(String login);
 

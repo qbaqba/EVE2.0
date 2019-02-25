@@ -2,6 +2,7 @@ package com.eve.service;
 
 import com.eve.dao.DAOFactory;
 import com.eve.dao.EventDAO;
+import com.eve.dao.ManagerDAO;
 import com.eve.helper.IdGenerator;
 import com.eve.model.Event;
 
@@ -16,6 +17,14 @@ public class EventService {
         IdGenerator idGenerator = new IdGenerator(eventDAO.getAllId());
         newEvent.setId(idGenerator.selectCorrectId());
         eventDAO.createNewEvent(newEvent);
+    }
+
+    public Event getEventByEventId(int eventId){
+        Event event;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        EventDAO eventDAO = factory.getEventDAO();
+        event = eventDAO.getEventByEventId(eventId);
+        return event;
     }
 
     public ArrayList<Event> getAllEvents(){

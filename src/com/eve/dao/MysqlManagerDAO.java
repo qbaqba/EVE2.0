@@ -14,6 +14,8 @@ public class MysqlManagerDAO implements ManagerDAO {
     private static final String SELECT_MANAGER_BY_LOGIN = "SELECT * FROM manager WHERE manager_login=?;";
     private static final String SELECT_ALL_LOGINS = "SELECT manager_login FROM manager;";
 
+    private static final String GET_MANAGER_BY_MANAGER_ID = "SELECT * FROM manager WHERE manager_id=?;";
+
     private static final String GET_MANAGER_SQL_QUERRY = "SELECT id from manager where login=? and password=?;";
     private static final String GET_MANAGER_BY_ID_SQL_QUERY = "SELECT * FROM manager where id=?;";
 
@@ -118,8 +120,22 @@ public class MysqlManagerDAO implements ManagerDAO {
     }
 
     @Override
-    public Manager getManagerById(int id) {
-        return null;
+    public Manager getManagerByManagerId(int managerId) {
+        Manager manager = new Manager();
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_MANAGER_BY_MANAGER_ID);
+            preparedStatement.setInt(1, managerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                manager.setId(resultSet.getInt("manager_id"));
+                manager.setLogin(resultSet.getString("manager_login"));
+                manager.setPassword(resultSet.getString("manager_password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return manager;
     }
     @SuppressWarnings("Duplicates")
     @Override
@@ -136,7 +152,6 @@ public class MysqlManagerDAO implements ManagerDAO {
             String managerPassword = resultSet.getString("manager_password");
             manager = new Manager(managerLogin, managerPassword);
             manager.setId(managerId);
-           // manager.setListOfCreatedEvents();
         } catch (SQLException e) {
             e.printStackTrace();
         }

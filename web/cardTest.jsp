@@ -12,6 +12,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.css" rel="stylesheet">
+
+
+
     <title>Eve 2.0</title>
 </head>
 
@@ -20,58 +32,38 @@
     <jsp:include page="WEB-INF/fragments/header.jspf"></jsp:include>
 </header>
 <div class="container-fluid">
+
+   <div class="row d-flex mt-5">
+       <div class="col-8 mx-auto">
+           <div class="jumbotron jumbotron-fluid rounded-pill shadow-lg border border-success">
+               <div class="container text-center">
+                   <h1 class="display-4">Twoje wydarzenia</h1>
+               </div>
+           </div>
+       </div>
+   </div>
+
+
     <div class="row d-flex mt-5">
-        <div class="col-8 border-dark mx-auto">
-
-        <%--    <div class="card mx-auto bg-dark text-white border-dark" style="width: 18rem;">
-                <div class="card-header">${sessionScope.currentEvent.category}</div>
-                <div class="card-body">
-                    <h5 class="card-title">${sessionScope.currentEvent.name}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">${sessionScope.currentEvent.manager.login}</h6>
-                    <ul class="list-group list-group-flush bg-dark">
-                        <li class="list-group-item bg-dark pl-0">Lokalizacja: ${sessionScope.currentEvent.location}</li>
-                        <li class="list-group-item bg-dark pl-0">Cena biletu: 27,00</li>
-                        <li class="list-group-item bg-dark pl-0">Data początek: 23.02.2018</li>
-                        <li class="list-group-item bg-dark pl-0">Data koniec: 24.02.2018</li>
-                    </ul>
-                    <a href="#" class="card-link pt-3">Więcej</a>
-                    <a href="#" class="card-link pt-3">Dołącz</a>
-                </div>
-            </div>
---%>
-
-
-
-
-
-
-
-       <%--     <c:forEach begin="0" end="2" varStatus="loop">
-                <div class="row d-flex mt-2">
-                    <c:forEach items="${requestScope.listOfEventsForPage}" var="event"
-                               begin="${(loop.count - 1) * 3}" end="${(loop.count * 3) - 1}">
-                                <c:if test="${!empty event}">
-
-                                </c:if>
-
-                    </c:forEach>
-                </div>
-            </c:forEach>
---%>
+        <div class="col-8 border-dark mx-auto ">
 
             <c:forEach begin="0" end="2" varStatus="loop">
                 <div class="row d-flex mt-2">
-                    <c:forEach items="${requestScope.listOfIntegersForPage}" var="event"
+                    <c:forEach items="${requestScope.listOfEventsForPage}" var="event"
                                begin="${(loop.count - 1) * 3}" end="${(loop.count * 3) - 1}">
                         <c:if test="${!empty event}">
-                            <div class="card mx-auto bg-dark text-white border-dark" style="width: 18rem;">
-                                <div class="card-header">${event}</div>
+                            <div class="card mx-auto bg-dark text-white border-dark shadow" style="width: 18rem;">
+                                <div class="card-header">${event.category}</div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                    <h5 class="card-title">${event.name}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">${event.manager.login}</h6>
+                                    <ul class="list-group list-group-flush bg-dark">
+                                        <li class="list-group-item bg-dark pl-0">Lokalizacja: ${event.location}</li>
+                                        <li class="list-group-item bg-dark pl-0">Cena biletu: ${event.ticketPrice}</li>
+                                        <li class="list-group-item bg-dark pl-0">Start: ${event.startDate}</li>
+                                        <li class="list-group-item bg-dark pl-0">Koniec: ${event.endDate}</li>
+                                    </ul>
+                                    <a class="btn btn-success" href="/DisplayingThisEventController?eventId=${event.id}" role="button">Więcej</a>
                                 </div>
                             </div>
                         </c:if>
@@ -86,43 +78,19 @@
                         <ul class="pagination">
                             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                             <c:forEach begin="0" end="${requestScope.countOfPages - 1}" varStatus="loop">
-                                <li class="page-item"><a class="page-link" href="#">${loop.count}</a></li>
+                                <li class="page-item"><a class="page-link" href="/DisplayEventController?events=managerEvents&page=${loop.count}">${loop.count}</a></li>
                             </c:forEach>
                             <li class="page-item"><a class="page-link" href="#">Next</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
-
-           <%-- <c:forEach begin="0" end="2">
-                <div class="row d-flex mt-2">
-                <c:forEach begin="0" end="2">
-                    <div class="card mx-auto bg-info text-white border-dark" style="width: 18rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                </c:forEach>
-                </div>
-            </c:forEach>
---%>
-          <%--  <c:forEach begin="0" end="${requestScope.countOfPages-1}">
-                <p> Cos tam</p>
-            </c:forEach>
-           --%>
         </div>
     </div>
-    <div class="row d-flex mt-5 mx-auto ">
-        <div class="col-8 mx-auto"></div>
-    </div>
-
 </div>
-
+<footer>
+    <jsp:include page="mdtest.jsp"></jsp:include>
+</footer>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

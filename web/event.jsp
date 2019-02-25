@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Kuba Gorczyca
-  Date: 25.01.2019
-  Time: 20:20
+  Date: 24.02.2019
+  Time: 11:40
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -15,26 +15,34 @@
     <title>Eve 2.0</title>
 </head>
 <body>
-
 <header>
     <jsp:include page="WEB-INF/fragments/header.jspf"></jsp:include>
 </header>
 
 <div class="container-fluid">
-    <div class="row justify-content-center mt-2">
-        <div class="col-6">
-        <div class="jumbotron">
-            <h1 class="display-4">Witaj, <c:out value = "${sessionScope.manager.login}"> </c:out></h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-
-            <a class="btn btn-success btn-lg" href="/creatingEventPanel.jsp" role="button">Dodaj wydarzenie</a>
-            <a class="btn btn-success btn-lg" href="/DisplayEventController?events=managerEvents&page=1" role="button">Twoje wydarzenia</a>
-        </div>
+    <div class="row mt-5">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron border border-success">
+                <h4 class="display-4">${requestScope.event.category}</h4>
+                <hr class="my-4">
+                <p class="lead">nazwa: ${requestScope.event.name}</p>
+                <p class="lead">lokalizacja: ${requestScope.event.location}</p>
+                <p class="lead">cena: ${requestScope.event.ticketPrice}</p>
+                <p class="lead">start: ${requestScope.event.startDate}</p>
+                <p class="lead">koniec: ${requestScope.event.endDate}</p>
+                <hr class="my-4">
+                <p class="lead">opis:</p>
+                <p class="lead text-wrap">${requestScope.event.description}</p>
+                <hr class="my-4">
+                <p class="lead">organizator</p><a href="/DisplayingAccountController?accountType=manager&accountId=${requestScope.event.manager.id}">${requestScope.event.manager.login}</a>
+                <hr class="my-4">
+                <p><a class="btn btn-success" href="#" role="button">Uczestnicy</a></p>
+            </div>
         </div>
     </div>
+
 </div>
+
 
 
 

@@ -24,8 +24,6 @@ public class LoginController extends HttpServlet {
         HttpSession session = request.getSession(false);
         if(managerService.checkLoginPassword(login,password) == true){
             Manager loggedManager = managerService.getManagerByLogin(login);
-            Event currentEvent = loggedManager.getListOfCreatedEvents().get(4);
-            session.setAttribute("currentEvent", currentEvent);
             session.setAttribute("loggedUser", loggedManager);
             response.sendRedirect("/mainPanelManager.jsp");
         }

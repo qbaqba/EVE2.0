@@ -11,4 +11,5 @@ public interface EventDAO {
     public List getAllId();
     public ArrayList<Event> getAllEvents();
     public ArrayList<Event> getAllEventsCreatedByManager(Manager manager);
+    public Event getEventByEventId(int eventId);
 }
