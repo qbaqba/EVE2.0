@@ -15,7 +15,7 @@ public class MysqlEventDAO implements EventDAO {
     private ManagerDAO managerDAO = daoFactory.getManagerDAO();
 
 
-    private static final String INSERT_NEW_EVENT = "INSERT INTO event VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_NEW_EVENT = "INSERT INTO event VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String GET_ALL_EVENTS_BY_MANAGER = "SELECT * FROM event WHERE manager_id=?;";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE event_id=?;";
 
@@ -28,6 +28,7 @@ public class MysqlEventDAO implements EventDAO {
         double eventTicketPrice = event.getTicketPrice();
         String eventStartDate = event.getStartDate().toString().replaceAll("T", " ");
         String eventEndDate = event.getEndDate().toString().replaceAll("T", " ");
+        String eventCreateDate = event.getCreateDate().toString().replaceAll("T", " ");
         String eventCategory = String.valueOf(event.getCategory()).toLowerCase();
         int managerID = event.getManager().getId();
 
@@ -43,6 +44,7 @@ public class MysqlEventDAO implements EventDAO {
             preparedStatement.setString(7, eventEndDate);
             preparedStatement.setString(8, eventCategory);
             preparedStatement.setInt(9, managerID);
+            preparedStatement.setString(10, eventCreateDate);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,6 +85,7 @@ public class MysqlEventDAO implements EventDAO {
                 event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
                 event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
                 event.setManager(manager);
+                event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
                 listOfAllEventsCreatedByManager.add(event);
             }
         } catch (SQLException e) {
@@ -108,6 +111,7 @@ public class MysqlEventDAO implements EventDAO {
                 event.setStartDate(resultSet.getTimestamp("event_start_Date").toLocalDateTime());
                 event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
                 event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
+                event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
                 int managerId = resultSet.getInt("manager_id");
                 Manager manager = managerDAO.getManagerByManagerId(managerId);
                 event.setManager(manager);

@@ -12,18 +12,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="css/mdb.min.css" rel="stylesheet">
-    <!-- Your custom styles (optional) -->
-    <link href="css/style.css" rel="stylesheet">
-
-
-
     <title>Eve 2.0</title>
 </head>
 
@@ -48,7 +36,7 @@
         <div class="col-8 border-dark mx-auto ">
 
             <c:forEach begin="0" end="2" varStatus="loop">
-                <div class="row d-flex mt-2">
+                <div class="row d-flex mt-2 justify-content-start flex-row">
                     <c:forEach items="${requestScope.listOfEventsForPage}" var="event"
                                begin="${(loop.count - 1) * 3}" end="${(loop.count * 3) - 1}">
                         <c:if test="${!empty event}">
@@ -72,25 +60,23 @@
                 </div>
             </c:forEach>
 
-            <div class="row d-flex mt-5">
-                <div class="col-8">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <c:forEach begin="0" end="${requestScope.countOfPages - 1}" varStatus="loop">
-                                <li class="page-item"><a class="page-link" href="/DisplayEventController?events=managerEvents&page=${loop.count}">${loop.count}</a></li>
-                            </c:forEach>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+
+        </div>
+    </div>
+    <div class="row d-flex mt-5">
+        <div class="col-8 mx-auto d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination mx-auto ">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <c:forEach begin="0" end="${requestScope.countOfPages - 1}" varStatus="loop">
+                        <li class="page-item"><a class="page-link" href="/DisplayEventController?events=managerEvents&page=${loop.count}">${loop.count}</a></li>
+                    </c:forEach>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
-<footer>
-    <jsp:include page="mdtest.jsp"></jsp:include>
-</footer>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

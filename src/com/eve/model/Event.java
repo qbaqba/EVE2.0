@@ -13,6 +13,7 @@ public class Event {
     private Double ticketPrice;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private LocalDateTime createDate;
     private EventCategory category;
     private Manager manager;
     private ArrayList<Participant> listOfAllParticipants;
@@ -27,6 +28,7 @@ public class Event {
        this.ticketPrice = event.ticketPrice;
        this.startDate = event.startDate;
        this.endDate = event.endDate;
+       this.createDate = event.createDate;
        this.category = event.category;
        this.manager = event.manager;
        this.listOfAllParticipants = event.listOfAllParticipants;
@@ -87,6 +89,10 @@ public class Event {
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
+
+    public LocalDateTime getCreateDate(){return createDate;}
+
+    public void setCreateDate(LocalDateTime createDate){this.createDate = createDate;}
 
     public EventCategory getCategory() {
         return category;

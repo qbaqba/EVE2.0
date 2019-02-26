@@ -25,14 +25,18 @@ public class LoginController extends HttpServlet {
         if(managerService.checkLoginPassword(login,password) == true){
             Manager loggedManager = managerService.getManagerByLogin(login);
             session.setAttribute("loggedUser", loggedManager);
+            session.setAttribute("accountType", "manager");
             response.sendRedirect("/mainPanelManager.jsp");
         }
         else if(participantService.checkLoginPassword(login, password) == true){
             Participant loggedParticipant = participantService.getParticipantByLogin(login);
             session.setAttribute("loggedUser", loggedParticipant);
-            response.sendRedirect("/index.jsp");
+            session.setAttribute("accountType", "participant");
+            response.sendRedirect("/participantMainPanel.jsp");
         }
-        else response.sendRedirect("/wrongInputPage.jsp");
+        else{
+            response.sendRedirect("/wrongInputPage.jsp");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

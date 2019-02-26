@@ -7,10 +7,17 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<div class="container">
-        <nav class="navbar  navbar-dark navbar-expand bg-dark mx-0">
+<div class="row">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg rounded ">
+        <a class="navbar-brand text-center mx-auto" href="#">Copyright 2019</a>
+    </nav>
+
+
+   <!-- <div class="col-12 d-flex">
+        <nav class="navbar navbar-dark navbar-expand bg-dark flex-fill">
             <a class="navbar-brand text-center mx-auto" href="#">Copyright 2019</a>
         </nav>
+        </div> -->
 </div>
 </body>
 </html>

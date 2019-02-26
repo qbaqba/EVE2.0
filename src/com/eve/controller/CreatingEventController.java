@@ -17,11 +17,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @WebServlet("/CreatingEventController")
 public class CreatingEventController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LocalDateTime createDate = LocalDateTime.now();
+
         String name, location, description, price, dateStart, dateEnd, timeStart, timeEnd, category;
         Manager manager = (Manager) request.getSession().getAttribute("loggedUser");
 
@@ -46,6 +49,7 @@ public class CreatingEventController extends HttpServlet {
             event.setDate(dateStart, dateEnd, timeStart, timeEnd);
             event.setNotConvertedFields(name, location, description);
             event.setConvertedFields();
+            event.setCreateDate(createDate);
             EventService eventService = new EventService();
             eventService.createEvent(event);
         }
