@@ -22,6 +22,13 @@
 
 <div class="container-fluid">
 
+    <div class="row mt-5">
+        <div class="col-8 mx-auto">
+            <h1 class="display-1 mx-auto text-center">Szukaj wydarzeń</h1>
+            <a class="btn btn-success mt-5 d-flex justify-content-center" href="/searchingEventForm.jsp" role="button">Szukaj</a>
+        </div>
+    </div>
+
     <!-- MOST POPULAR IN THIS WEEK -->
 
     <div class="row mt-5">

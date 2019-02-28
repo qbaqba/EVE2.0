@@ -13,13 +13,9 @@ public class MysqlManagerDAO implements ManagerDAO {
     private static final String CREATE_MANAGER_SQL_QUERRY = "INSERT INTO MANAGER VALUES(?, ?, ?);";
     private static final String SELECT_MANAGER_BY_LOGIN = "SELECT * FROM manager WHERE manager_login=?;";
     private static final String SELECT_ALL_LOGINS = "SELECT manager_login FROM manager;";
-
     private static final String GET_MANAGER_BY_MANAGER_ID = "SELECT * FROM manager WHERE manager_id=?;";
 
-    private static final String GET_MANAGER_SQL_QUERRY = "SELECT id from manager where login=? and password=?;";
-    private static final String GET_MANAGER_BY_ID_SQL_QUERY = "SELECT * FROM manager where id=?;";
 
-    private static final String GET_ALL_ACCOUNT_SQL_QUERRY = "SELECT login, password FROM manager;";
 
 
     @Override

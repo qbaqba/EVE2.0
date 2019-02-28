@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Manager {
 
+    private static final AccountType accountType = AccountType.MANAGER;
+
     private int id;
     private String login;
     private String password;
@@ -24,6 +26,10 @@ public class Manager {
         this.password = manager.password;
         this.listOfCreatedEvents = manager.listOfCreatedEvents;
         this.listOfFollowers = manager.listOfFollowers;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
     }
 
     public int getId() {

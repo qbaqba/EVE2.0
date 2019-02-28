@@ -20,7 +20,6 @@ public class DisplayingThisEventController extends HttpServlet {
         String eventId = request.getParameter("eventId");
         EventService eventService = new EventService();
         Event event = eventService.getEventByEventId(Integer.parseInt(eventId));
-        System.out.println(event.getLocation());
 
         request.setAttribute("event", event);
         request.getRequestDispatcher("/event.jsp").forward(request, response);

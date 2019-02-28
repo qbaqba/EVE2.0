@@ -31,7 +31,7 @@ public class LoginController extends HttpServlet {
         else if(participantService.checkLoginPassword(login, password) == true){
             Participant loggedParticipant = participantService.getParticipantByLogin(login);
             session.setAttribute("loggedUser", loggedParticipant);
-            session.setAttribute("accountType", "participant");
+            System.out.println(loggedParticipant.getAccountType());
             response.sendRedirect("/participantMainPanel.jsp");
         }
         else{

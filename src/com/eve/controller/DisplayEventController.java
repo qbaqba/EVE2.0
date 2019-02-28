@@ -3,6 +3,7 @@ package com.eve.controller;
 import com.eve.model.Event;
 import com.eve.model.Manager;
 import com.eve.service.EventService;
+import com.eve.service.ManagerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 
 @WebServlet("/DisplayEventController")
 public class DisplayEventController extends HttpServlet {
+
+    ManagerService managerService = new ManagerService();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -70,6 +74,10 @@ public class DisplayEventController extends HttpServlet {
         if(eventsToReturn.equals("managerEvents")){
             Manager loggedManager = (Manager) request.getSession(false).getAttribute("loggedUser");
             listOfAllEvents = loggedManager.getListOfCreatedEvents();
+        }
+        else {
+            Manager manager = managerService.getManagerByLogin(eventsToReturn);
+            listOfAllEvents = manager.getListOfCreatedEvents();
         }
         return listOfAllEvents;
     }

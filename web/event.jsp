@@ -37,7 +37,7 @@
                 <p class="lead">organizator</p><a href="/DisplayingAccountController?accountType=manager&accountId=${requestScope.event.manager.id}">${requestScope.event.manager.login}</a>
                 <hr class="my-4">
                 <p><a class="btn btn-success" href="#" role="button">Uczestnicy</a>
-                <c:if test="${sessionScope.accountType == 'participant'}">
+                <c:if test="${sessionScope.loggedUser.login == 'kuba'}">
                     <a class="btn btn-success" href="/join?eventId=${requestScope.event.id}&participantId=${sessionScope.loggedUser.id}" role="button">Dolacz</a>
                 </c:if>
                 </p>

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Participant {
 
+    private static final AccountType accountType = AccountType.PARTICIPANT;
+
     private int id;
     private String login;
     private String password;
@@ -11,19 +13,15 @@ public class Participant {
     private ArrayList<Event> listOfAllParticipantEvents;
     private ArrayList<Manager> listOfSubscribedMangers;
 
-    public Participant(){};
+    public Participant(){ }
 
     public Participant(String login, String password){
         this.login = login;
         this.password = password;
     }
 
-    public Participant(Participant participant){
-        this.id = participant.id;
-        this.login = participant.login;
-        this.password = participant.password;
-        this.listOfAllParticipantEvents = participant.listOfAllParticipantEvents;
-        this.listOfSubscribedMangers = participant.listOfSubscribedMangers;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
     public void setId(int id) {

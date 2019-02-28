@@ -22,8 +22,8 @@
 
 
     <div class="collapse navbar-collapse my-auto" id="navbarSupportedContent">
-        <form method="get" action="" class="form-inline ml-auto mt-auto">
-            <input class="form-control  disabled" type="search" placeholder="Szukaj .." aria-label="Search">
+        <form method="get" action="/search" class="form-inline ml-auto mt-auto">
+            <input class="form-control  disabled" name="search" type="search" placeholder="Szukaj .." aria-label="Search">
             <button class="btn btn-success ml-2" type="submit">Szukaj</button>
         </form>
         <ul class="navbar-nav ml-auto mt-3">

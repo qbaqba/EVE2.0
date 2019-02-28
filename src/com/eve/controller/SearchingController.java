@@ -14,6 +14,7 @@ public class SearchingController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String managerSearch = request.getParameter("search");
+        request.getRequestDispatcher("/DisplayEventController?events="+managerSearch+"&page=1").forward(request, response);
     }
 }
