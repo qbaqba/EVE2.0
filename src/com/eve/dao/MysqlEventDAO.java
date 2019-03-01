@@ -1,5 +1,6 @@
 package com.eve.dao;
 
+import com.eve.helper.EventFilter;
 import com.eve.helper.converter.EventConverter;
 import com.eve.model.Event;
 import com.eve.model.EventCategory;
@@ -7,6 +8,7 @@ import com.eve.model.Manager;
 import com.eve.util.ConnectionProvider;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MysqlEventDAO implements EventDAO {
@@ -74,20 +76,7 @@ public class MysqlEventDAO implements EventDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_EVENTS_BY_MANAGER);
             preparedStatement.setInt(1, manager.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                event = new Event();
-                event.setId(resultSet.getInt("event_id"));
-                event.setName(resultSet.getString("event_name"));
-                event.setLocation(resultSet.getString("event_location"));
-                event.setDescription(resultSet.getString("event_description"));
-                event.setTicketPrice(resultSet.getDouble("event_ticket_price"));
-                event.setStartDate(resultSet.getTimestamp("event_start_Date").toLocalDateTime());
-                event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
-                event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
-                event.setManager(manager);
-                event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
-                listOfAllEventsCreatedByManager.add(event);
-            }
+            listOfAllEventsCreatedByManager = getEventsFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,27 +84,15 @@ public class MysqlEventDAO implements EventDAO {
     }
 
     public Event getEventByEventId(int eventId){
+        ArrayList<Event> events = new ArrayList<>();
         Event event = new Event();
-
         try{
             Connection connection = ConnectionProvider.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(GET_EVENT_BY_ID);
             preparedStatement.setInt(1, eventId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                event.setId(resultSet.getInt("event_id"));
-                event.setName(resultSet.getString("event_name"));
-                event.setLocation(resultSet.getString("event_location"));
-                event.setDescription(resultSet.getString("event_description"));
-                event.setTicketPrice(resultSet.getDouble("event_ticket_price"));
-                event.setStartDate(resultSet.getTimestamp("event_start_Date").toLocalDateTime());
-                event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
-                event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
-                event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
-                int managerId = resultSet.getInt("manager_id");
-                Manager manager = managerDAO.getManagerByManagerId(managerId);
-                event.setManager(manager);
-            }
+            events = getEventsFromResultSet(resultSet);
+            event = events.get(0);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,31 +100,142 @@ public class MysqlEventDAO implements EventDAO {
         return event;
     }
 
+    public ArrayList<Event> getEventsFromResultSet(ResultSet resultSet) throws SQLException {
+        ArrayList<Event> events = new ArrayList<>();
+        while(resultSet.next()){
+            Event event = new Event();
+            event.setId(resultSet.getInt("event_id"));
+            event.setName(resultSet.getString("event_name"));
+            event.setLocation(resultSet.getString("event_location"));
+            event.setDescription(resultSet.getString("event_description"));
+            event.setTicketPrice(resultSet.getDouble("event_ticket_price"));
+            event.setStartDate(resultSet.getTimestamp("event_start_Date").toLocalDateTime());
+            event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
+            event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
+            event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
+            int managerId = resultSet.getInt("manager_id");
+            Manager manager = managerDAO.getManagerByManagerId(managerId);
+            event.setManager(manager);
+            events.add(event);
+        }
+        return events;
+    }
 
     public ArrayList<Event> getAllEvents(){
         ArrayList<Event> listOfAllEvents = new ArrayList<>();
         Event event;
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         ManagerDAO managerDAO = factory.getManagerDAO();
-
-      /*  try (Connection connection = ConnectionProvider.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(GET_ALL_EVENTS_MYSQL_QUERY);
-            while(resultSet.next()){
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String location = resultSet.getString("location");
-                int managerId = resultSet.getInt("manager_id");
-                int usersCounter = resultSet.getInt("users");
-                Manager manager = managerDAO.getManagerById(managerId);
-                event = new Event(name, location, manager);
-                event.setId(id);
-                event.setUsersCounter(usersCounter);
-                listOfAllEvents.add(event);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
         return listOfAllEvents;
     }
+
+    public ArrayList<Event> getFilteredEvents(EventFilter eventFilter){
+        ArrayList<Event> filteredEvents = null;
+        String[] categories = eventFilter.getCategories();
+        double minTicketPrice = eventFilter.getMinTicketPrice();
+        double maxTicketPrice = eventFilter.getMaxTicketPrice();
+        LocalDate startDate = eventFilter.getStartDate();
+        LocalDate endDate = eventFilter.getEndDate();
+        return filteredEvents;
+    }
+
+    public ArrayList<Event> getFilteredEventsByCategories(String[] categories){
+        ArrayList<Event> filteredEventsByCategories = new ArrayList<>();
+        String queryForCategories = setQueryForCategories(categories);
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(queryForCategories);
+            filteredEventsByCategories = getEventsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filteredEventsByCategories;
+    }
+
+    public String setQueryForCategories(String[] categories){
+        String queryForCategories;
+        if(categories == null){
+            queryForCategories = "SELECT * FROM event";
+        }
+        else{
+            String condition = "";
+            String additionalCondition;
+
+            for(int i = 0; i < categories.length; i++){
+                additionalCondition = "event_category = '" + categories[i] +"' ";
+                condition = condition + additionalCondition;
+                if(categories.length - i != 1){
+                    condition = condition + " OR ";
+                }
+            }
+            condition = condition + ";";
+            queryForCategories = "SELECT * FROM event WHERE " + condition;
+        }
+        return queryForCategories;
+    }
+
+    public ArrayList<Event> getFilteredEventsByTicketPrice(double minTicketPrice, double maxTicketPrice){
+        ArrayList<Event> filteredEventsByTicketPrice = new ArrayList<>();
+        String queryForTicketPrice = setQueryForTicketPrice(minTicketPrice, maxTicketPrice);
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(queryForTicketPrice);
+            filteredEventsByTicketPrice = getEventsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filteredEventsByTicketPrice;
+    }
+
+    public String setQueryForTicketPrice(double minTicketPrice, double maxTicketPrice){
+        String query;
+        if(minTicketPrice == 0 && maxTicketPrice == 0){
+            query = "SELECT * FROM event;";
+        }
+        else if(minTicketPrice != 0){
+            query = "SELECT * FROM event WHERE event_ticket_price > "+minTicketPrice+";";
+        }
+        else if(maxTicketPrice != 0){
+            query = "SELECT * FROM event WHERE event_ticket_price < "+maxTicketPrice+";";
+        }
+        else {
+            query = "SELECT * FROM event WHERE event_ticket_price > "+minTicketPrice+" AND event_ticket_price < "+maxTicketPrice+";";
+        }
+        return query;
+    }
+
+    public ArrayList<Event> getFilteredEventsByDate(LocalDate startDate, LocalDate endDate){
+        ArrayList<Event> filteredEventsByDate = new ArrayList<>();
+        String queryForDate = setQueryForDate(startDate, endDate);
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(queryForDate);
+            filteredEventsByDate = getEventsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filteredEventsByDate;
+    }
+
+    public String setQueryForDate(LocalDate startDate, LocalDate endDate){
+        String query;
+        if(startDate == null && endDate == null){
+            query = "SELECT * FROM event;";
+        }
+        else if(startDate != null){
+            query = "SELECT * FROM event WHERE event_start_Date > '"+startDate+"';";
+        }
+        else if(endDate != null){
+            query = "SELECT * FROM event WHERE event_end_date < '"+endDate+"';";
+        }
+        else{
+            query = "SELECT * FROM event WHERE event_start_Date > '"+startDate+"' AND " +
+                    "event_end_date < '"+endDate+"';";
+        }
+        return query;
+    }
+
 }

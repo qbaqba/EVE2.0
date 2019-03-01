@@ -1,5 +1,6 @@
 package com.eve.dao;
 
+import com.eve.helper.EventFilter;
 import com.eve.model.Event;
 import com.eve.model.Manager;
 
@@ -11,5 +12,7 @@ public interface EventDAO {
     public List getAllId();
     public ArrayList<Event> getAllEvents();
     public ArrayList<Event> getAllEventsCreatedByManager(Manager manager);
+    public ArrayList<Event> getFilteredEvents(EventFilter eventFilter);
     public Event getEventByEventId(int eventId);
+
 }

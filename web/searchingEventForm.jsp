@@ -38,58 +38,58 @@
     <div class="row justify-content-center mt-2">
         <div class="col-6">
             <div class="jumbotron jumbotron-fluid border border-success text-center rounded">
-                <form method="get" action="CreatingEventController">
+                <form method="get" action="searchEvents">
                     <h5 class="h5 my-4">Kategoria</h5>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox1" value="sport">
                         <label class="form-check-label" for="inlineCheckbox1">Sport</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox2" value="music">
                         <label class="form-check-label" for="inlineCheckbox2">Muzyka</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox3" value="culture">
                         <label class="form-check-label" for="inlineCheckbox3">Kultura</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox4" value="food">
                         <label class="form-check-label" for="inlineCheckbox4">Jedzenie</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox5" value="learning">
                         <label class="form-check-label" for="inlineCheckbox5">Nauka</label>
                     </div>
                     <p></p>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox6" value="work">
                         <label class="form-check-label" for="inlineCheckbox6">Praca</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="option7">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox7" value="hobby">
                         <label class="form-check-label" for="inlineCheckbox7">Hobby</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox8" value="option8">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox8" value="shopping">
                         <label class="form-check-label" for="inlineCheckbox8">Zakupy</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox9" value="option9">
+                        <input class="form-check-input" name="category" type="checkbox" id="inlineCheckbox9" value="other">
                         <label class="form-check-label" for="inlineCheckbox9">Inne</label>
                     </div>
                     <hr class="my-4">
-                    <h5 class="h5">Cena</h5>
-                    <input class="form-control my-4 text-center" type="text" placeholder="cena minimalna">
-                    <input class="form-control my-4 text-center" type="text" placeholder="cena maksymalna">
+                    <h5 class="h5">Cena biletu</h5>
+                    <input class="form-control my-4 text-center" name="minTicketPrice" type="text" placeholder="cena minimalna">
+                    <input class="form-control my-4 text-center" name="maxTicketPrice" type="text" placeholder="cena maksymalna">
                     <hr class="my-4">
                     <h5 class="h5">Data</h5>
                     <div class="form-group">
                         <label for="inputStartDate">Od</label>
-                        <input type="date" name="inputStartDate" class="form-control text-center" id="inputStartDate">
+                        <input type="date" name="startDate" class="form-control text-center" id="inputStartDate">
                     </div>
                     <div class="form-group">
-                        <label for="inputStartDate">Do</label>
-                        <input type="date" name="inputEndDate" class="form-control text-center" id="inputEndDate">
+                        <label for="inputEndDate">Do</label>
+                        <input type="date" name="endDate" class="form-control text-center" id="inputEndDate">
                     </div>
                     <div class="form-group">
                         <div class="mx-auto my-4">
