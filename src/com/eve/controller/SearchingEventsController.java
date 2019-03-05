@@ -1,6 +1,7 @@
 package com.eve.controller;
 
 import com.eve.helper.EventFilter;
+import com.eve.model.Event;
 import com.eve.service.EventService;
 
 import javax.servlet.ServletException;
@@ -10,11 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.lang.Object.*;
+import java.util.*;
 
 @WebServlet("/searchEvents")
 public class SearchingEventsController extends HttpServlet {
@@ -30,7 +27,6 @@ public class SearchingEventsController extends HttpServlet {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
-
         EventService eventService = new EventService();
         if(eventService.isCorrectInputTicketPrice(minTicketPrice, maxTicketPrice) == true && eventService.isCorrectInputDate(startDate, endDate) == true){
             eventFilter = new EventFilter();
@@ -39,21 +35,24 @@ public class SearchingEventsController extends HttpServlet {
             double minTicketPriceDouble = eventService.changeTicketPriceToDouble(minTicketPrice);
             double maxTicketPriceDouble = eventService.changeTicketPriceToDouble(maxTicketPrice);
 
-
-            System.out.println(categories);
-            System.out.println(categories == null);
-
             eventFilter.setCategories(categories);
             eventFilter.setMinTicketPrice(minTicketPriceDouble);
             eventFilter.setMaxTicketPrice(maxTicketPriceDouble);
             eventFilter.setStartDate(startLocalDate);
             eventFilter.setEndDate(endLocalDate);
 
-           // eventService.getFilteredEvents(eventFilter);
+            ArrayList<Event> events = eventService.getFilteredEvents(eventFilter);
+            if(events != null){
+                request.setAttribute("events", events);
+                request.getRequestDispatcher("/DisplayEventController?events=filteredEvents&page=1").forward(request, response);
+            }
+            else{
+                response.sendRedirect("/wrongInputPage.jsp");
+            }
 
         }
         else{
-            response.sendRedirect("/wrongInput.jsp");
+            response.sendRedirect("/wrongInputPage.jsp");
         }
 
 

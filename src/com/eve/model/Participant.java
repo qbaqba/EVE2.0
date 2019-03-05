@@ -1,6 +1,7 @@
 package com.eve.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Participant {
 
@@ -14,6 +15,23 @@ public class Participant {
     private ArrayList<Manager> listOfSubscribedMangers;
 
     public Participant(){ }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Participant)) return false;
+        Participant that = (Participant) o;
+        return getId() == that.getId() &&
+                getLogin().equals(that.getLogin()) &&
+                getPassword().equals(that.getPassword()) &&
+                getListOfAllParticipantEvents().equals(that.getListOfAllParticipantEvents()) &&
+                getListOfSubscribedMangers().equals(that.getListOfSubscribedMangers());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getLogin(), getPassword(), getListOfAllParticipantEvents(), getListOfSubscribedMangers());
+    }
 
     public Participant(String login, String password){
         this.login = login;

@@ -1,10 +1,26 @@
 package com.eve.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Manager {
 
     private static final AccountType accountType = AccountType.MANAGER;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Manager)) return false;
+        Manager manager = (Manager) o;
+        return getId() == manager.getId() &&
+                getLogin().equals(manager.getLogin()) &&
+                getPassword().equals(manager.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getLogin(), getPassword());
+    }
 
     private int id;
     private String login;

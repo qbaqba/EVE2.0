@@ -30,9 +30,16 @@
             <c:choose>
                 <c:when test="${not empty sessionScope.loggedUser}">
                     <li class="nav-item mr-1">
-                        <form action="/mainPanelManager.jsp" method="get">
-                            <button type="submit" class="btn btn-success"><c:out value="${sessionScope.loggedUser.login}"> </c:out></button>
-                        </form>
+                        <c:if test="${sessionScope.loggedUser.accountType eq 'MANAGER'}">
+                            <form action="/mainPanelManager.jsp" method="get">
+                                <button type="submit" class="btn btn-success"><c:out value="${sessionScope.loggedUser.login}"> </c:out></button>
+                            </form>
+                        </c:if>
+                        <c:if test="${sessionScope.loggedUser.accountType eq 'PARTICIPANT'}">
+                            <form action="/participantMainPanel.jsp" method="get">
+                                <button type="submit" class="btn btn-success"><c:out value="${sessionScope.loggedUser.login}"> </c:out></button>
+                            </form>
+                        </c:if>
                     </li>
                     <li class="nav-item">
                         <form action="logout" method="get">

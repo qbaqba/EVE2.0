@@ -27,14 +27,19 @@ public class DisplayEventController extends HttpServlet {
         String pageNumber = request.getParameter("page");
 
         ArrayList<Event> listOfAllEvents = setListOfAllEvents(eventsToReturn, request, response);
-        int pageNumberToInt = setPageNumberToInt(pageNumber);
-        int countOfPages = setCountOfPages(listOfAllEvents);
-        ArrayList<Event> listOfEventsForPage = setListOfEventsForPage(pageNumberToInt, countOfPages, listOfAllEvents);
-        request.setAttribute("pageNumber", pageNumberToInt);
-        request.setAttribute("countOfPages", countOfPages);
-        request.setAttribute("listOfEventsForPage", listOfEventsForPage);
-        request.getRequestDispatcher("/cardTest.jsp").forward(request, response);
+        if(listOfAllEvents.size() != 0){
+            int pageNumberToInt = setPageNumberToInt(pageNumber);
+            int countOfPages = setCountOfPages(listOfAllEvents);
+            ArrayList<Event> listOfEventsForPage = setListOfEventsForPage(pageNumberToInt, countOfPages, listOfAllEvents);
 
+            request.setAttribute("pageNumber", pageNumberToInt);
+            request.setAttribute("countOfPages", countOfPages);
+            request.setAttribute("listOfEventsForPage", listOfEventsForPage);
+            request.getRequestDispatcher("/cardTest.jsp").forward(request, response);
+        }
+        else{
+            response.sendRedirect("/wrongInputPage.jsp");
+        }
     }
 
     public int setPageNumberToInt(String pageNumber){
@@ -70,10 +75,13 @@ public class DisplayEventController extends HttpServlet {
     }
 
     public ArrayList<Event> setListOfAllEvents(String eventsToReturn, HttpServletRequest request, HttpServletResponse response){
-        ArrayList<Event> listOfAllEvents = new ArrayList<>();
+        ArrayList<Event> listOfAllEvents;
         if(eventsToReturn.equals("managerEvents")){
             Manager loggedManager = (Manager) request.getSession(false).getAttribute("loggedUser");
             listOfAllEvents = loggedManager.getListOfCreatedEvents();
+        }
+        else if(eventsToReturn.equals("filteredEvents")){
+            listOfAllEvents = (ArrayList<Event>) request.getAttribute("events");
         }
         else {
             Manager manager = managerService.getManagerByLogin(eventsToReturn);

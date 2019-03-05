@@ -40,6 +40,7 @@ public class EventService {
         return filteredEvents;
     }
 
+
     public boolean isCorrectInputDate(String startDate, String endDate){
         LocalDate startDateLocalDate = changeDateToLocalDate(startDate);
         LocalDate endDateLocalDate = changeDateToLocalDate(endDate);
@@ -80,7 +81,7 @@ public class EventService {
     public boolean compareTicketPrices(String minTicketPrice, String maxTicketPrice){
         double minTicketPriceDouble = changeTicketPriceToDouble(minTicketPrice);
         double maxTicketPriceDouble = changeTicketPriceToDouble(maxTicketPrice);
-        return minTicketPriceDouble <= maxTicketPriceDouble;
+        return (minTicketPriceDouble <= maxTicketPriceDouble) || (minTicketPriceDouble != 0 && maxTicketPriceDouble == 0);
     }
 
     public double changeTicketPriceToDouble(String ticketPrice){

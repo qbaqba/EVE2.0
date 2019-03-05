@@ -5,6 +5,7 @@ public class Participation {
     private int participantId;
     private int eventId;
 
+
     public Participation(){}
 
     public Participation(int participantId, int eventId){

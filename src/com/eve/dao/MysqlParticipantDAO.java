@@ -9,6 +9,9 @@ import java.util.HashMap;
 
 public class MysqlParticipantDAO implements ParticipantDAO {
 
+    DAOFactory daoFactory = DAOFactory.getMysqlDAOFactory();
+    EventDAO eventDAO = daoFactory.getEventDAO();
+
     // MYSQL QUERIES
     private static final String SELECT_ALL_ID = "SELECT participant_id FROM participant;";
     private static final String SELECT_ALL_LOGINS = "SELECT participant_login FROM participant;";
@@ -52,6 +55,7 @@ public class MysqlParticipantDAO implements ParticipantDAO {
             String participantPassword = resultSet.getString("participant_password");
             participant = new Participant(participantLogin, participantPassword);
             participant.setId(participantId);
+            participant.setListOfAllParticipantEvents(eventDAO.getAllEventsForParticpant(participant));
         } catch (SQLException e) {
             e.printStackTrace();
         }
