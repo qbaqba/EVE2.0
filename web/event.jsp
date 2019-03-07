@@ -34,13 +34,48 @@
                 <p class="lead">opis:</p>
                 <p class="lead text-wrap">${requestScope.event.description}</p>
                 <hr class="my-4">
-                <p class="lead">organizator</p><a href="/DisplayingAccountController?accountType=manager&accountId=${requestScope.event.manager.id}">${requestScope.event.manager.login}</a>
+                <p class="lead">organizator: <a href="/account?accountId=${requestScope.event.manager.id}">${requestScope.event.manager.login}</a></p>
                 <hr class="my-4">
-                <p><a class="btn btn-success" href="#" role="button">Uczestnicy</a>
+
+            <div class="row">
+                    <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModalLong">
+                        Uczestnicy
+                    </button> </p>
+                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title text-center" id="exampleModalLongTitle">Uczestnicy</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <c:forEach items="${requestScope.participants}" var="participant">
+                                    <a class="lead" href="/participantAccount">${participant.login}</a>
+                                    <hr class="my-1">
+                                </c:forEach>
+                            </div>
+                            <div class="modal-footer mx-auto">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <c:if test="${sessionScope.loggedUser.accountType == 'PARTICIPANT'}">
-                    <a class="btn btn-success" href="/join?eventId=${requestScope.event.id}&participantId=${sessionScope.loggedUser.id}" role="button">Dolacz</a>
+                    <c:choose>
+                        <c:when test="${requestScope.isParticipation == true}">
+                            <a class="btn btn-success ml-2" href="/participation?eventId=${requestScope.event.id}&participantId=${sessionScope.loggedUser.id}&action=quit" role="button">Nie bierz udziału</a>
+                        </c:when>
+                        <c:when test="${requestScope.isParticipation == false}">
+                            <a class="btn btn-success ml-2" href="/participation?eventId=${requestScope.event.id}&participantId=${sessionScope.loggedUser.id}&action=join" role="button">Dolacz</a>
+                        </c:when>
+                    </c:choose>
                 </c:if>
-                </p>
+            </div>
             </div>
         </div>
     </div>

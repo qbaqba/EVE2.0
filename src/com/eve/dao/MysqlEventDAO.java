@@ -37,7 +37,6 @@ public class MysqlEventDAO implements EventDAO {
         String eventCreateDate = event.getCreateDate().toString().replaceAll("T", " ");
         String eventCategory = String.valueOf(event.getCategory()).toLowerCase();
         int managerID = event.getManager().getId();
-
         try{
             Connection connection = ConnectionProvider.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NEW_EVENT);
@@ -130,7 +129,7 @@ public class MysqlEventDAO implements EventDAO {
     }
 
     public Event getEventByEventId(int eventId){
-        ArrayList<Event> events = new ArrayList<>();
+        ArrayList<Event> events;
         Event event = new Event();
         try{
             Connection connection = ConnectionProvider.getConnection();
@@ -148,26 +147,8 @@ public class MysqlEventDAO implements EventDAO {
 
     public Event getEventFromResultSet(ResultSet resultSet) throws SQLException {
         Event event = new Event();
-        resultSet.next();
-        event.setId(resultSet.getInt("event_id"));
-        event.setName(resultSet.getString("event_name"));
-        event.setLocation(resultSet.getString("event_location"));
-        event.setDescription(resultSet.getString("event_description"));
-        event.setTicketPrice(resultSet.getDouble("event_ticket_price"));
-        event.setStartDate(resultSet.getTimestamp("event_start_Date").toLocalDateTime());
-        event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
-        event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
-        event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
-        int managerId = resultSet.getInt("manager_id");
-        Manager manager = managerDAO.getManagerByManagerId(managerId);
-        event.setManager(manager);
-        return event;
-    }
-
-    public ArrayList<Event> getEventsFromResultSet(ResultSet resultSet) throws SQLException {
-        ArrayList<Event> events = new ArrayList<>();
-        while(resultSet.next()){
-            Event event = new Event();
+        try{
+            resultSet.next();
             event.setId(resultSet.getInt("event_id"));
             event.setName(resultSet.getString("event_name"));
             event.setLocation(resultSet.getString("event_location"));
@@ -178,9 +159,44 @@ public class MysqlEventDAO implements EventDAO {
             event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
             event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
             int managerId = resultSet.getInt("manager_id");
-            Manager manager = managerDAO.getManagerByManagerId(managerId);
-            event.setManager(manager);
-            events.add(event);
+           // Manager manager = managerDAO.getManagerByManagerId(managerId);
+           // event.setManager(manager);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return event;
+    }
+
+    public ArrayList<Event> getEventsFromResultSet(ResultSet resultSet){
+        ArrayList<Event> events = new ArrayList<>();
+        ArrayList<Integer> allManagerId = new ArrayList<>();
+        try {
+            while(resultSet.next()){
+                Event event = new Event();
+                event.setId(resultSet.getInt("event_id"));
+                event.setName(resultSet.getString("event_name"));
+                event.setLocation(resultSet.getString("event_location"));
+                event.setDescription(resultSet.getString("event_description"));
+                event.setTicketPrice(resultSet.getDouble("event_ticket_price"));
+                event.setStartDate(resultSet.getTimestamp("event_start_Date").toLocalDateTime());
+                event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
+                event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
+                event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
+                int managerId = resultSet.getInt("manager_id");
+                allManagerId.add(managerId);
+                // Manager manager = managerDAO.getManagerByManagerId(managerId);
+               // event.setManager(manager);
+                events.add(event);
+            }
+            int listSize = events.size();
+            for(int i = 0; i < listSize; i++){
+                Manager manager = managerDAO.getManagerByManagerId(allManagerId.get(i));
+                events.get(i).setManager(manager);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return events;
     }

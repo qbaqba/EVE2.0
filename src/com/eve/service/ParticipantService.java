@@ -3,6 +3,7 @@ package com.eve.service;
 import com.eve.dao.DAOFactory;
 import com.eve.dao.ParticipantDAO;
 import com.eve.helper.IdGenerator;
+import com.eve.model.Event;
 import com.eve.model.Participant;
 
 import java.util.ArrayList;
@@ -46,5 +47,13 @@ public class ParticipantService {
         ParticipantDAO participantDAO = factory.getParticipantDAO();
         participant = participantDAO.getParticipantByLogin(login);
         return participant;
+    }
+
+    public ArrayList<Participant> getAllParticipantForEvent(Event event){
+        ArrayList<Participant> allParticipants;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        ParticipantDAO participantDAO = factory.getParticipantDAO();
+        allParticipants = participantDAO.getAllParticipantsForEvent(event);
+        return allParticipants;
     }
 }

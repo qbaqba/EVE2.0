@@ -1,5 +1,6 @@
 package com.eve.dao;
 
+import com.eve.model.Event;
 import com.eve.model.Participant;
 
 import java.util.ArrayList;
@@ -16,4 +17,6 @@ public interface ParticipantDAO {
     public ArrayList<String> getAllLogin();
 
     public ArrayList<Integer> getAllId();
+
+    public ArrayList<Participant> getAllParticipantsForEvent(Event event);
 }

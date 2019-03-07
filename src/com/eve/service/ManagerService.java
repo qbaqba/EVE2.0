@@ -3,13 +3,11 @@ package com.eve.service;
 import com.eve.dao.DAOFactory;
 import com.eve.dao.EventDAO;
 import com.eve.dao.ManagerDAO;
-import com.eve.dao.ParticipantDAO;
 import com.eve.helper.IdGenerator;
 import com.eve.model.Manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ManagerService {
 
@@ -50,6 +48,14 @@ public class ManagerService {
         EventDAO eventDAO = factory.getEventDAO();
         manager = managerDAO.getManagerByLogin(login);
         manager.setListOfCreatedEvents(eventDAO.getAllEventsCreatedByManager(manager));
+        return manager;
+    }
+
+    public Manager getManagerByManagerId(int id){
+        Manager manager;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        ManagerDAO managerDAO = factory.getManagerDAO();
+        manager = managerDAO.getManagerByManagerId(id);
         return manager;
     }
 

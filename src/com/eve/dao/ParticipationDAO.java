@@ -7,5 +7,5 @@ import java.util.ArrayList;
 
 public interface ParticipationDAO {
     public void createParticipation(Participation participation);
-    public ArrayList<Participation> getAllParticipationForParticipant(Participant participant);
+    public void deleteParticipation(Participation participation);
 }

@@ -16,12 +16,11 @@ public class ParticipationService {
         participationDAO.createParticipation(participation);
     }
 
-    public ArrayList<Participation> getAllParticipationForParticipant(Participant participant){
-        ArrayList<Participation> allParticipationForParticipant;
+    public void deleteParticipation(int participantId, int eventId){
         DAOFactory daoFactory = DAOFactory.getMysqlDAOFactory();
         ParticipationDAO participationDAO = daoFactory.getParticipationDAO();
-        allParticipationForParticipant = participationDAO.getAllParticipationForParticipant(participant);
-        return allParticipationForParticipant;
+        Participation participation = new Participation(participantId, eventId);
+        participationDAO.deleteParticipation(participation);
     }
 
 }

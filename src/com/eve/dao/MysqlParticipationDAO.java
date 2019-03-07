@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MysqlParticipationDAO implements ParticipationDAO {
 
     private static final String CREATE_NEW_PARTICIPATION = "INSERT INTO participation VALUES(?, ?);";
-    private static final String GET_ALL_PARTICIPATION_FOR_PARTICIPANT = "SELECT * FROM participation WHERE participant_id=?;";
+    private static final String DELETE_PARTICIPATION = "DELETE FROM participation WHERE participant_id=? AND event_id=?;";
 
     public void createParticipation(Participation participation){
         int participantId = participation.getParticipantId();
@@ -30,24 +30,18 @@ public class MysqlParticipationDAO implements ParticipationDAO {
         }
     }
 
-    public ArrayList<Participation> getAllParticipationForParticipant(Participant participant){
-        ArrayList<Participation> allParticipation = new ArrayList<>();
-        int participantId = participant.getId();
+    public void deleteParticipation(Participation participation){
+        int participantId = participation.getParticipantId();
+        int eventId = participation.getEventId();
 
         try{
             Connection connection = ConnectionProvider.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_PARTICIPATION_FOR_PARTICIPANT);
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PARTICIPATION);
             preparedStatement.setInt(1, participantId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                Participation participation = new Participation();
-                participation.setParticipantId(participantId);
-                participation.setEventId(resultSet.getInt(1));
-                allParticipation.add(participation);
-            }
+            preparedStatement.setInt(2, eventId);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return allParticipation;
     }
 }

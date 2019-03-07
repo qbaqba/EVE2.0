@@ -25,7 +25,8 @@ public class MysqlManagerDAO implements ManagerDAO {
         String login = manager.getLogin();
         String password = manager.getPassword();
 
-        try (Connection connection = ConnectionProvider.getConnection()) {
+        try {
+            Connection connection = ConnectionProvider.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_MANAGER_SQL_QUERRY);
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, login);
@@ -40,9 +41,8 @@ public class MysqlManagerDAO implements ManagerDAO {
     // this method returns ArrayList with all manager login from database
     public ArrayList<String> getAllLogin() {
         ArrayList<String> listOfLogins = new ArrayList<>();
-        Connection connection = null;
         try {
-            connection = ConnectionProvider.getConnection();
+            Connection connection = ConnectionProvider.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_LOGINS);
             while (resultSet.next()) {
@@ -54,33 +54,10 @@ public class MysqlManagerDAO implements ManagerDAO {
         return listOfLogins;
      }
 
-
-   /* @Override
-    public Manager getManagerById(int id) {
-        Manager manager = null;
-        String idString = String.valueOf(id);
-        try {
-            Connection connection = ConnectionProvider.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_MANAGER_BY_ID_SQL_QUERY);
-            preparedStatement.setString(1,idString);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                String login = resultSet.getString("login");
-                String password = resultSet.getString("password");
-                manager = new Manager(login, password);
-                manager.setId(id);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return manager;
-    }*/
-
-
-
     public HashMap<String, String> getMapOfLoginPassword() {
         HashMap<String, String> mapOfLoginPassword= new HashMap<>();
-        try (Connection connection = ConnectionProvider.getConnection()) {
+        try {
+            Connection connection = ConnectionProvider.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT manager_login, manager_password FROM manager;");
             while(resultSet.next()){
@@ -98,7 +75,8 @@ public class MysqlManagerDAO implements ManagerDAO {
     public ArrayList<Integer> getAllId() {
         ArrayList<Integer> listOfAllId = new ArrayList<Integer>();
 
-        try (Connection connection = ConnectionProvider.getConnection()) {
+        try{
+            Connection connection = ConnectionProvider.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT id FROM Manager;");
             while(resultSet.next()){
@@ -119,15 +97,19 @@ public class MysqlManagerDAO implements ManagerDAO {
     public Manager getManagerByManagerId(int managerId) {
         Manager manager = new Manager();
         try{
+            DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+            EventDAO eventDAO = factory.getEventDAO();
             Connection connection = ConnectionProvider.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(GET_MANAGER_BY_MANAGER_ID);
             preparedStatement.setInt(1, managerId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                manager.setId(resultSet.getInt("manager_id"));
-                manager.setLogin(resultSet.getString("manager_login"));
-                manager.setPassword(resultSet.getString("manager_password"));
-            }
+            resultSet.next();
+            manager.setId(resultSet.getInt("manager_id"));
+            manager.setLogin(resultSet.getString("manager_login"));
+            manager.setPassword(resultSet.getString("manager_password"));
+
+            manager.setListOfCreatedEvents(eventDAO.getAllEventsCreatedByManager(manager));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
