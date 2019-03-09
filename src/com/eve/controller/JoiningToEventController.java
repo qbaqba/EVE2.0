@@ -21,17 +21,15 @@ public class JoiningToEventController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Participant loggedParticipant = (Participant) request.getSession(false).getAttribute("loggedUser");
-        ArrayList<Event> eventsForParticipant = loggedParticipant.getListOfAllParticipantEvents();
         String participantId = request.getParameter("participantId");
         String eventId = request.getParameter("eventId");
         String action = request.getParameter("action");
         int participantIdInt = Integer.parseInt(participantId);
         int eventIdInt = Integer.parseInt(eventId);
+        Participant loggedParticipant = (Participant) request.getSession(false).getAttribute("loggedUser");
         EventService eventService = new EventService();
+        ArrayList<Event> eventsForParticipant = eventService.getAllEventsForParticipant(loggedParticipant);
         Event event = eventService.getEventByEventId(eventIdInt);
-
-        Participation participation = new Participation(participantIdInt, eventIdInt);
         ParticipationService participationService = new ParticipationService();
 
         if(action.equals("join")){

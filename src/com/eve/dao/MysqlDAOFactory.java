@@ -16,4 +16,6 @@ public class MysqlDAOFactory extends DAOFactory {
     }
 
     public ParticipationDAO getParticipationDAO(){return new MysqlParticipationDAO(); }
+
+    public SubscriptionDAO getSubscriptionDAO(){return new MysqlSubscriptionDAO(); }
 }

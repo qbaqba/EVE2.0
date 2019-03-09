@@ -23,14 +23,12 @@ public class Participant {
         Participant that = (Participant) o;
         return getId() == that.getId() &&
                 getLogin().equals(that.getLogin()) &&
-                getPassword().equals(that.getPassword()) &&
-                getListOfAllParticipantEvents().equals(that.getListOfAllParticipantEvents()) &&
-                getListOfSubscribedMangers().equals(that.getListOfSubscribedMangers());
+                getPassword().equals(that.getPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getListOfAllParticipantEvents(), getListOfSubscribedMangers());
+        return Objects.hash(getId(), getLogin(), getPassword());
     }
 
     public Participant(String login, String password){

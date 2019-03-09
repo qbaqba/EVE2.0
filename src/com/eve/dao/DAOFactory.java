@@ -8,6 +8,7 @@ public abstract class DAOFactory {
     public abstract EventDAO getEventDAO();
     public abstract ParticipantDAO getParticipantDAO();
     public abstract ParticipationDAO getParticipationDAO();
+    public abstract SubscriptionDAO getSubscriptionDAO();
 
     public static DAOFactory getMysqlDAOFactory(){
         return new MysqlDAOFactory();

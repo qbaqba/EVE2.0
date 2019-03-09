@@ -51,7 +51,7 @@
                                         <li class="list-group-item bg-dark pl-0">Start: ${event.startDate}</li>
                                         <li class="list-group-item bg-dark pl-0">Koniec: ${event.endDate}</li>
                                     </ul>
-                                    <a class="btn btn-success" href="/DisplayingThisEventController?eventId=${event.id}" role="button">Więcej</a>
+                                    <a class="btn btn-success" href="/event?eventId=${event.id}" role="button">Więcej</a>
                                 </div>
                             </div>
                         </c:if>

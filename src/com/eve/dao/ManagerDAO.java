@@ -21,4 +21,6 @@ public interface ManagerDAO {
     public HashMap<String, String> getMapOfLoginPassword();
 
     public ArrayList<String> getAllLogin();
+
+    public Manager getManagerByEventId(int eventId);
 }

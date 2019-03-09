@@ -6,6 +6,8 @@ import com.eve.dao.ManagerDAO;
 import com.eve.helper.EventFilter;
 import com.eve.helper.IdGenerator;
 import com.eve.model.Event;
+import com.eve.model.Manager;
+import com.eve.model.Participant;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,15 +30,46 @@ public class EventService {
         Event event;
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         EventDAO eventDAO = factory.getEventDAO();
+        ManagerDAO managerDAO = factory.getManagerDAO();
         event = eventDAO.getEventByEventId(eventId);
+        Manager manager = managerDAO.getManagerByEventId(eventId);
+        event.setManager(manager);
         return event;
+    }
+
+    public ArrayList<Event> getAllEventsCreatedByManager(Manager manager){
+        ArrayList<Event> allEvents;
+        DAOFactory daoFactory = DAOFactory.getMysqlDAOFactory();
+        EventDAO eventDAO = daoFactory.getEventDAO();
+        ManagerDAO managerDAO = daoFactory.getManagerDAO();
+        allEvents = eventDAO.getAllEventsCreatedByManager(manager);
+        for(Event event : allEvents){
+            event.setManager(managerDAO.getManagerByEventId(event.getId()));
+        }
+        return allEvents;
+    }
+
+    public ArrayList<Event> getAllEventsForParticipant(Participant participant){
+        ArrayList<Event> allEvents;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        EventDAO eventDAO = factory.getEventDAO();
+        ManagerDAO managerDAO = factory.getManagerDAO();
+        allEvents = eventDAO.getAllEventsForParticpant(participant);
+        for(Event event : allEvents){
+            event.setManager(managerDAO.getManagerByEventId(event.getId()));
+        }
+        return allEvents;
     }
 
     public ArrayList<Event> getFilteredEvents(EventFilter eventFilter){
         ArrayList<Event> filteredEvents;
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         EventDAO eventDAO = factory.getEventDAO();
+        ManagerDAO managerDAO = factory.getManagerDAO();
         filteredEvents = eventDAO.getFilteredEvents(eventFilter);
+        for(Event event : filteredEvents){
+            event.setManager(managerDAO.getManagerByEventId(event.getId()));
+        }
         return filteredEvents;
     }
 
@@ -100,12 +133,27 @@ public class EventService {
         return ticketPriceDouble;
     }
 
-    public ArrayList<Event> getAllEvents(){
-        ArrayList<Event> listOfAllEvents = new ArrayList<>();
-        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
-        EventDAO eventDAO = factory.getEventDAO();
-        listOfAllEvents = eventDAO.getAllEvents();
-        return listOfAllEvents;
+    public ArrayList<Event> getEndedEvents(ArrayList<Event> allEvents){
+        ArrayList<Event> endedEvents = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        for(Event event : allEvents){
+            LocalDateTime endDateTime = event.getEndDate();
+            if(now.isAfter(endDateTime)){
+                endedEvents.add(event);
+            }
+        }
+        return endedEvents;
     }
 
+    public ArrayList<Event> getNotStartedEvents(ArrayList<Event> allEvents){
+        ArrayList<Event> notStartedEvents = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        for(Event event : allEvents){
+            LocalDateTime startDateTime = event.getStartDate();
+            if(now.isBefore(startDateTime)){
+                notStartedEvents.add(event);
+            }
+        }
+        return notStartedEvents;
+    }
 }

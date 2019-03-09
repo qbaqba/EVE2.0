@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/DisplayingThisEventController")
+@WebServlet("/event")
 public class DisplayingThisEventController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -26,8 +26,9 @@ public class DisplayingThisEventController extends HttpServlet {
         EventService eventService = new EventService();
         ParticipantService participantService = new ParticipantService();
         Event event = eventService.getEventByEventId(Integer.parseInt(eventId));
+
         ArrayList<Participant> allParticipantForEvent = participantService.getAllParticipantForEvent(event);
-        ArrayList<Event> eventsForParticipant = loggedParticipant.getListOfAllParticipantEvents();
+        ArrayList<Event> eventsForParticipant = eventService.getAllEventsForParticipant(loggedParticipant);
         Boolean isParticipation;
         if(eventsForParticipant.contains(event)){
             isParticipation = true;

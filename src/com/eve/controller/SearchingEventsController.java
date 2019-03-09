@@ -42,6 +42,7 @@ public class SearchingEventsController extends HttpServlet {
             eventFilter.setEndDate(endLocalDate);
 
             ArrayList<Event> events = eventService.getFilteredEvents(eventFilter);
+
             if(events != null){
                 request.setAttribute("events", events);
                 request.getRequestDispatcher("/DisplayEventController?events=filteredEvents&page=1").forward(request, response);

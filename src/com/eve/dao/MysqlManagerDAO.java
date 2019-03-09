@@ -93,6 +93,36 @@ public class MysqlManagerDAO implements ManagerDAO {
         return null;
     }
 
+    public Manager getManagerByEventId(int eventId){
+        String query1 = "SELECT manager_id FROM event WHERE event_id=?;";
+        String query2 = "SELECT * FROM manager WHERE manager_id=?;";
+        int managerId = 0;
+        Manager manager = new Manager();
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement1 = connection.prepareStatement(query1);
+            preparedStatement1.setInt(1, eventId);
+            ResultSet resultSet1 = preparedStatement1.executeQuery();
+            resultSet1.next();
+            managerId = resultSet1.getInt("manager_id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement2 = connection.prepareStatement(query2);
+            preparedStatement2.setInt(1, managerId);
+            ResultSet resultSet2 = preparedStatement2.executeQuery();
+            resultSet2.next();
+            manager.setId(resultSet2.getInt("manager_id"));
+            manager.setLogin(resultSet2.getString("manager_login"));
+            manager.setPassword(resultSet2.getString("manager_password"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return manager;
+    }
+
     @Override
     public Manager getManagerByManagerId(int managerId) {
         Manager manager = new Manager();
@@ -107,9 +137,6 @@ public class MysqlManagerDAO implements ManagerDAO {
             manager.setId(resultSet.getInt("manager_id"));
             manager.setLogin(resultSet.getString("manager_login"));
             manager.setPassword(resultSet.getString("manager_password"));
-
-            manager.setListOfCreatedEvents(eventDAO.getAllEventsCreatedByManager(manager));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,4 +162,5 @@ public class MysqlManagerDAO implements ManagerDAO {
         }
         return manager;
     }
+
 }

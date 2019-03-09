@@ -1,6 +1,7 @@
 package com.eve.dao;
 
 import com.eve.model.Event;
+import com.eve.model.Manager;
 import com.eve.model.Participant;
 import com.eve.util.ConnectionProvider;
 
@@ -10,14 +11,14 @@ import java.util.HashMap;
 
 public class MysqlParticipantDAO implements ParticipantDAO {
 
-    DAOFactory daoFactory = DAOFactory.getMysqlDAOFactory();
-    EventDAO eventDAO = daoFactory.getEventDAO();
+
 
     // MYSQL QUERIES
     private static final String SELECT_ALL_ID = "SELECT participant_id FROM participant;";
     private static final String SELECT_ALL_LOGINS = "SELECT participant_login FROM participant;";
     private static final String INSERT_NEW_PARTICIPANT = "INSERT INTO participant VALUES(?, ?, ?);";
     private static final String SELECT_PARTICIPANT_BY_LOGIN = "SELECT * FROM participant WHERE participant_login=?;";
+    private static final String GET_PARTICIPANT_BY_ID = "SELECT * FROM participant WHERE participant_id=?;";
 
 
 
@@ -54,7 +55,23 @@ public class MysqlParticipantDAO implements ParticipantDAO {
             String participantPassword = resultSet.getString("participant_password");
             participant = new Participant(participantLogin, participantPassword);
             participant.setId(participantId);
-         //   participant.setListOfAllParticipantEvents(eventDAO.getAllEventsForParticpant(participant));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return participant;
+    }
+
+    public Participant getParticipantByParticipantId(int participantId){
+        Participant participant = new Participant();
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_PARTICIPANT_BY_ID);
+            preparedStatement.setInt(1, participantId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            participant.setId(resultSet.getInt("participant_id"));
+            participant.setLogin(resultSet.getString("participant_login"));
+            participant.setPassword(resultSet.getString("participant_password"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,30 +84,8 @@ public class MysqlParticipantDAO implements ParticipantDAO {
         allParticipantsForEvent = getAllParticipantFromParticipantId(allParticipantIdForEvent);
         return allParticipantsForEvent;
     }
+    /////////////////////////////////////////////////////////////////////
 
-   public ArrayList<Participant> getAllParticipantFromParticipantId(ArrayList<Integer> allParticipantId){
-        ArrayList<Participant> allParticipants = new ArrayList<>();
-        String query = "SELECT * FROM participant WHERE participant_id=?;";
-        try{
-            Connection connection = ConnectionProvider.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            for(int participantId : allParticipantId){
-                preparedStatement.setInt(1, participantId);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while(resultSet.next()){
-                    Participant participant = new Participant();
-                    participant.setId(resultSet.getInt("participant_id"));
-                    participant.setLogin(resultSet.getString("participant_login"));
-                    participant.setPassword(resultSet.getString("participant_password"));
-                    participant.setListOfAllParticipantEvents(eventDAO.getAllEventsForParticpant(participant));
-                    allParticipants.add(participant);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return allParticipants;
-   }
 
     public ArrayList<Integer> getAllParticpantIdForEvent(Event event){
         ArrayList<Integer> allParticipantIdforEvent = new ArrayList<>();
@@ -108,6 +103,55 @@ public class MysqlParticipantDAO implements ParticipantDAO {
             e.printStackTrace();
         }
         return allParticipantIdforEvent;
+    }
+
+    public ArrayList<Participant> getAllParticipantsForManager(Manager manager){
+        ArrayList<Participant> allParticipants;
+        ArrayList<Integer> allParticipantIdForManager = getAllParticipantIdForManager(manager);
+        allParticipants = getAllParticipantFromParticipantId(allParticipantIdForManager);
+        return allParticipants;
+    }
+
+
+
+    public ArrayList<Integer> getAllParticipantIdForManager(Manager manager){
+        ArrayList<Integer> allParticipantIdforManager = new ArrayList<>();
+        String query = "SELECT participant_id FROM subscription WHERE manager_id=?;";
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, manager.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                int participantId = resultSet.getInt("participant_id");
+                allParticipantIdforManager.add(participantId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allParticipantIdforManager;
+    }
+    public ArrayList<Participant> getAllParticipantFromParticipantId(ArrayList<Integer> allParticipantId){
+        ArrayList<Participant> allParticipants = new ArrayList<>();
+        String query = "SELECT * FROM participant WHERE participant_id=?;";
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            for(int participantId : allParticipantId){
+                preparedStatement.setInt(1, participantId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while(resultSet.next()){
+                    Participant participant = new Participant();
+                    participant.setId(resultSet.getInt("participant_id"));
+                    participant.setLogin(resultSet.getString("participant_login"));
+                    participant.setPassword(resultSet.getString("participant_password"));
+                    allParticipants.add(participant);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allParticipants;
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.eve.service;
 
 import com.eve.dao.DAOFactory;
+import com.eve.dao.EventDAO;
 import com.eve.dao.ParticipantDAO;
 import com.eve.helper.IdGenerator;
 import com.eve.model.Event;
+import com.eve.model.Manager;
 import com.eve.model.Participant;
 
 import java.util.ArrayList;
@@ -41,11 +43,23 @@ public class ParticipantService {
         else return false;
     }
 
+    public Participant getParticipantByParticipantId(int participantId){
+        Participant participant;
+        DAOFactory daoFactory = DAOFactory.getMysqlDAOFactory();
+        ParticipantDAO participantDAO = daoFactory.getParticipantDAO();
+        EventDAO eventDAO = daoFactory.getEventDAO();
+        participant = participantDAO.getParticipantByParticipantId(participantId);
+        participant.setListOfAllParticipantEvents(eventDAO.getAllEventsForParticpant(participant));
+        return participant;
+    }
+
     public Participant getParticipantByLogin(String login){
         Participant participant;
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         ParticipantDAO participantDAO = factory.getParticipantDAO();
+        EventDAO eventDAO = factory.getEventDAO();
         participant = participantDAO.getParticipantByLogin(login);
+        participant.setListOfAllParticipantEvents(eventDAO.getAllEventsForParticpant(participant));
         return participant;
     }
 
@@ -54,6 +68,14 @@ public class ParticipantService {
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();
         ParticipantDAO participantDAO = factory.getParticipantDAO();
         allParticipants = participantDAO.getAllParticipantsForEvent(event);
+        return allParticipants;
+    }
+
+    public ArrayList<Participant> getAllParticipantsForManager(Manager manager){
+        ArrayList<Participant> allParticipants;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        ParticipantDAO participantDAO = factory.getParticipantDAO();
+        allParticipants = participantDAO.getAllParticipantsForManager(manager);
         return allParticipants;
     }
 }

@@ -20,6 +20,7 @@ public class MysqlEventDAO implements EventDAO {
     private ManagerDAO managerDAO = daoFactory.getManagerDAO();
 
 
+
     private static final String INSERT_NEW_EVENT = "INSERT INTO event VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String GET_ALL_EVENTS_BY_MANAGER = "SELECT * FROM event WHERE manager_id=?;";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE event_id=?;";
@@ -70,7 +71,7 @@ public class MysqlEventDAO implements EventDAO {
         }
         return listOfAllId;
     }
-
+    /////////////////////////////////////////////////////////////////////
     public ArrayList<Event> getAllEventsCreatedByManager(Manager manager){
         ArrayList<Event> listOfAllEventsCreatedByManager = new ArrayList<>();
         try{
@@ -108,7 +109,7 @@ public class MysqlEventDAO implements EventDAO {
         }
         return allEventId;
     }
-
+    /////////////////////////////////////////////////////////////////////
     public ArrayList<Event> getAllEventsForEventId(ArrayList<Integer> listOfEventsId){
         ArrayList<Event> allEvents = new ArrayList<>();
         String query = "SELECT * FROM event WHERE event_id=?;";
@@ -127,24 +128,21 @@ public class MysqlEventDAO implements EventDAO {
         }
         return allEvents;
     }
-
+    /////////////////////////////////////////////////////////////////////
     public Event getEventByEventId(int eventId){
-        ArrayList<Event> events;
         Event event = new Event();
         try{
             Connection connection = ConnectionProvider.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(GET_EVENT_BY_ID);
             preparedStatement.setInt(1, eventId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            events = getEventsFromResultSet(resultSet);
-            event = events.get(0);
-
+            event = getEventFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return event;
     }
-
+    /////////////////////////////////////////////////////////////////////
     public Event getEventFromResultSet(ResultSet resultSet) throws SQLException {
         Event event = new Event();
         try{
@@ -158,19 +156,15 @@ public class MysqlEventDAO implements EventDAO {
             event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
             event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
             event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
-            int managerId = resultSet.getInt("manager_id");
-           // Manager manager = managerDAO.getManagerByManagerId(managerId);
-           // event.setManager(manager);
         }
         catch (SQLException e){
             e.printStackTrace();
         }
         return event;
     }
-
+    /////////////////////////////////////////////////////////////////////
     public ArrayList<Event> getEventsFromResultSet(ResultSet resultSet){
         ArrayList<Event> events = new ArrayList<>();
-        ArrayList<Integer> allManagerId = new ArrayList<>();
         try {
             while(resultSet.next()){
                 Event event = new Event();
@@ -183,18 +177,8 @@ public class MysqlEventDAO implements EventDAO {
                 event.setEndDate(resultSet.getTimestamp("event_end_date").toLocalDateTime());
                 event.setCategory(EventCategory.valueOf(resultSet.getString("event_category").toUpperCase()));
                 event.setCreateDate(resultSet.getTimestamp("event_create_date").toLocalDateTime());
-                int managerId = resultSet.getInt("manager_id");
-                allManagerId.add(managerId);
-                // Manager manager = managerDAO.getManagerByManagerId(managerId);
-               // event.setManager(manager);
                 events.add(event);
             }
-            int listSize = events.size();
-            for(int i = 0; i < listSize; i++){
-                Manager manager = managerDAO.getManagerByManagerId(allManagerId.get(i));
-                events.get(i).setManager(manager);
-            }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -210,15 +194,18 @@ public class MysqlEventDAO implements EventDAO {
     }
 
     public ArrayList<Event> getFilteredEvents(EventFilter eventFilter){
-        ArrayList<Event> filteredEvents = new ArrayList<>();
+        ArrayList<Event> filteredEvents;
+
         String[] categories = eventFilter.getCategories();
         double minTicketPrice = eventFilter.getMinTicketPrice();
         double maxTicketPrice = eventFilter.getMaxTicketPrice();
         LocalDate startDate = eventFilter.getStartDate();
         LocalDate endDate = eventFilter.getEndDate();
+
         ArrayList<Event> filteredEventsByCategories = getFilteredEventsByCategories(categories);
         ArrayList<Event> filteredEventsByTicketPrice = getFilteredEventsByTicketPrice(minTicketPrice, maxTicketPrice);
         ArrayList<Event> filteredEventsByDate = getFilteredEventsByDate(startDate, endDate);
+
         filteredEventsByCategories.retainAll(filteredEventsByTicketPrice);
         filteredEventsByCategories.retainAll(filteredEventsByDate);
         filteredEvents = filteredEventsByCategories;
