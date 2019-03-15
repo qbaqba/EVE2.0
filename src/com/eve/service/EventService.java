@@ -61,6 +61,13 @@ public class EventService {
         return allEvents;
     }
 
+    public ArrayList<Event> getTheMostPopularEventsInThisWeek{
+        ArrayList<Event> theMostPopularEventsInThisWeek;
+        DAOFactory factory = DAOFactory.getMysqlDAOFactory();
+        EventDAO eventDAO = factory.getEventDAO();
+
+    }
+
     public ArrayList<Event> getFilteredEvents(EventFilter eventFilter){
         ArrayList<Event> filteredEvents;
         DAOFactory factory = DAOFactory.getMysqlDAOFactory();

@@ -159,7 +159,7 @@
                             <div class="card-header">Obserwacja</div>
                             <div class="card-body">
                                 <p class="card-text">Obserwuj użytkownika i otrzymuj powiadomienia o nowych eventach!</p>
-                                <p><a class="btn btn-outline-light mx-auto" href="/follow?action=follow&managerId=${requestScope.manager.id}&participantId=${sessionScope.loggedUser.id}" role="button">Obserwuj</a></p>
+                                <p class="mx-auto d-flex justify-content-center"><a class="btn btn-outline-light" href="/follow?action=follow&managerId=${requestScope.manager.id}&participantId=${sessionScope.loggedUser.id}" role="button">Obserwuj</a></p>
                             </div>
                         </div>
                     </c:when>
@@ -168,7 +168,7 @@
                             <div class="card-header">Obserwacja</div>
                             <div class="card-body">
                                 <p class="card-text">Przestań obserwować tego użytkownika.</p>
-                                <p><a class="btn btn-outline-light mx-auto" href="/unfollow?action=follow&managerId=${requestScope.manager.id}&participantId=${sessionScope.loggedUser.id}" role="button">Przestań obserwować</a></p>
+                                <p class="mx-auto d-flex justify-content-center"><a class="btn btn-outline-light" href="/follow?action=unfollow&managerId=${requestScope.manager.id}&participantId=${sessionScope.loggedUser.id}" role="button">Przestań obserwować</a></p>
                             </div>
                         </div>
                     </c:when>
@@ -183,7 +183,35 @@
                     <div class="card-header">Obserwujący</div>
                     <div class="card-body">
                         <p class="card-text">Sprawdź obserwujących tego użytkownika. </p>
-                        <p><a class="btn btn-outline-light mx-auto" href="#" role="button">Obserwujący</a></p>
+
+                       <p> <button type="button" class="btn btn-outline-light mx-auto d-flex justify-content-center" data-toggle="modal" data-target="#exampleModalLong">
+                            Obserwujący
+                        </button> </p>
+
+                        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h5 class="modal-title text-center" id="exampleModalLongTitle">Obserwujący</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <c:forEach items="${requestScope.followers}" var="participant">
+                                            <a class="lead" href="/participantAccount">${participant.login}</a>
+                                            <hr class="my-1">
+                                        </c:forEach>
+                                    </div>
+                                    <div class="modal-footer mx-auto">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
 

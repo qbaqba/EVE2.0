@@ -8,6 +8,7 @@ import com.eve.model.Participant;
 import com.eve.util.ConnectionProvider;
 
 import java.sql.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -25,6 +26,7 @@ public class MysqlEventDAO implements EventDAO {
     private static final String GET_ALL_EVENTS_BY_MANAGER = "SELECT * FROM event WHERE manager_id=?;";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE event_id=?;";
     private static final String GET_PARTICIPANT_EVENTS = "SELECT event_id FROM participation WHERE participant_id=?;";
+    private static final String THE_MOST_POPULAR_EVENTS = "SELECT * FROM event WHERE event_start_Date=? AND event_end_date=?;";
 
     @Override
     public void createNewEvent(Event event) {
@@ -192,6 +194,51 @@ public class MysqlEventDAO implements EventDAO {
         ManagerDAO managerDAO = factory.getManagerDAO();
         return listOfAllEvents;
     }
+
+    public ArrayList<Event> getTheMostPopularEventsInThisWeek(){
+        ArrayList<Event> theMostPopularEventsInThisWeek;
+        ArrayList<Event> allEventsInThisWeek = getAllEventsInThisWeek();
+
+    }
+
+    public ArrayList<Event> getAllEventsInThisWeek(){
+        ArrayList<Event> allEventsInThisWeek = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        LocalDate[] startAndEndWeek = getStartAndEndInThisWeek(today);
+        String query = setQueryForAllEventsInThisWeek(startAndEndWeek);
+        try{
+            Connection connection = ConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            allEventsInThisWeek = getEventsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allEventsInThisWeek;
+    }
+
+    public String setQueryForAllEventsInThisWeek(LocalDate[] startAndEndInThisWeek){
+        String query;
+        LocalDate start = startAndEndInThisWeek[0];
+        LocalDate end = startAndEndInThisWeek[1];
+        query = "SELECT * FROM event WHERE event_start_Date >= '"+start+"' AND event_end_date <= '"+end+"';";
+        return query;
+    }
+
+    public LocalDate[] getStartAndEndInThisWeek(LocalDate today){
+        LocalDate[] beginAndEndWeek = new LocalDate[2];
+        LocalDate startWeek, endWeek;
+        DayOfWeek presentDay = today.getDayOfWeek();
+        int presentDayValue = presentDay.getValue();
+        int daysToEndWeek = 7 - presentDayValue;
+        int daysFromBeginWeek = presentDayValue - 1;
+        startWeek = today.minusDays(daysFromBeginWeek);
+        endWeek = today.plusDays(daysToEndWeek);
+        beginAndEndWeek[0] = startWeek;
+        beginAndEndWeek[1] = endWeek;
+        return beginAndEndWeek;
+    }
+
 
     public ArrayList<Event> getFilteredEvents(EventFilter eventFilter){
         ArrayList<Event> filteredEvents;
