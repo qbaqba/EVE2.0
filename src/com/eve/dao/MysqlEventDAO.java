@@ -195,11 +195,14 @@ public class MysqlEventDAO implements EventDAO {
         return listOfAllEvents;
     }
 
+    /*
     public ArrayList<Event> getTheMostPopularEventsInThisWeek(){
         ArrayList<Event> theMostPopularEventsInThisWeek;
         ArrayList<Event> allEventsInThisWeek = getAllEventsInThisWeek();
 
     }
+     */
+
 
     public ArrayList<Event> getAllEventsInThisWeek(){
         ArrayList<Event> allEventsInThisWeek = new ArrayList<>();
